@@ -1,0 +1,62 @@
+.biology-fact {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 12px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.fact-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 0 20px;
+  animation: slideIn 0.5s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fact-container i {
+  font-size: 1.2rem;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+.fact-text {
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: center;
+  margin: 0;
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .fact-container {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .fact-text {
+    font-size: 0.85rem;
+  }
+}

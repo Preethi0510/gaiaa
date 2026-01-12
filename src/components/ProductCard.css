@@ -1,0 +1,188 @@
+.product-card {
+  background-color: var(--white);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+.product-image {
+  position: relative;
+  height: 250px;
+  overflow: hidden;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-image img {
+  transform: scale(1.05);
+}
+
+.product-tags {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+
+.eco-badge {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.new-badge {
+  background-color: var(--secondary-color);
+  color: var(--text-dark);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.quick-view-btn {
+  position: absolute;
+  bottom: -50px;
+  left: 0;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.95);
+  border: none;
+  padding: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: bottom 0.3s ease;
+}
+
+.product-card:hover .quick-view-btn {
+  bottom: 0;
+}
+
+.product-info {
+  padding: 20px;
+}
+
+.product-name {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: var(--text-dark);
+}
+
+.product-description {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.product-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.eco-points {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.product-rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.product-rating .fas.fa-star {
+  color: #ddd;
+}
+
+.product-rating .fas.fa-star.filled {
+  color: #FFC107;
+}
+
+.product-rating span {
+  color: var(--text-light);
+  font-size: 0.85rem;
+}
+
+.product-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.current-price {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.original-price {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  text-decoration: line-through;
+}
+/* Find the .add-to-cart-btn section and update it */
+.add-to-cart-btn {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 8px 16px; /* Reduced from 10px 20px */
+  border-radius: 20px; /* Reduced from 25px */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px; /* Reduced from 8px */
+  font-weight: 600;
+  font-size: 0.9rem; /* Added font size */
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  min-width: 120px; /* Ensure minimum width */
+  justify-content: center;
+}
+
+.add-to-cart-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: 0.5s;
+}
+
+.add-to-cart-btn:hover::before {
+  left: 100%;
+}
+
+.add-to-cart-btn:hover {
+  background-color: var(--accent-color);
+  transform: translateX(3px); /* Reduced from 5px */
+}
