@@ -1,21 +1,23 @@
 .product-card {
-  background-color: var(--white);
-  border-radius: 15px;
+  background: var(--white);
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: var(--shadow);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
-  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .product-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
 }
 
 .product-image {
-  position: relative;
-  height: 250px;
+  height: 200px;
   overflow: hidden;
+  position: relative;
 }
 
 .product-image img {
@@ -29,142 +31,75 @@
   transform: scale(1.05);
 }
 
-.product-tags {
+.eco-badge {
   position: absolute;
   top: 15px;
-  left: 15px;
-  display: flex;
-  gap: 8px;
-  z-index: 2;
-}
-
-.eco-badge {
-  background-color: var(--primary-color);
-  color: white;
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-.new-badge {
+  right: 15px;
   background-color: var(--secondary-color);
   color: var(--text-dark);
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 0.75rem;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
   font-weight: 600;
-}
-
-.quick-view-btn {
-  position: absolute;
-  bottom: -50px;
-  left: 0;
-  width: 100%;
-  background-color: rgba(255, 255, 255, 0.95);
-  border: none;
-  padding: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: bottom 0.3s ease;
-}
-
-.product-card:hover .quick-view-btn {
-  bottom: 0;
-}
-
-.product-info {
-  padding: 20px;
-}
-
-.product-name {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-  color: var(--text-dark);
-}
-
-.product-description {
-  color: var(--text-light);
-  font-size: 0.9rem;
-  margin-bottom: 15px;
-  line-height: 1.5;
-}
-
-.product-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.eco-points {
   display: flex;
   align-items: center;
   gap: 5px;
+  z-index: 2;
+}
+
+.product-content {
+  padding: 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-content h4 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: var(--text-dark);
+  min-height: 40px;
+  line-height: 1.3;
+}
+
+.product-price {
+  font-size: 1.3rem;
+  font-weight: 700;
   color: var(--primary-color);
-  font-weight: 600;
-  font-size: 0.9rem;
+  margin-bottom: 15px;
 }
 
 .product-rating {
   display: flex;
   align-items: center;
   gap: 5px;
-}
-
-.product-rating .fas.fa-star {
-  color: #ddd;
-}
-
-.product-rating .fas.fa-star.filled {
+  margin-bottom: 20px;
   color: #FFC107;
+}
+
+.product-rating i {
+  font-size: 0.9rem;
 }
 
 .product-rating span {
   color: var(--text-light);
-  font-size: 0.85rem;
-}
-
-.product-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.price-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.current-price {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: var(--primary-color);
-}
-
-.original-price {
   font-size: 0.9rem;
-  color: var(--text-light);
-  text-decoration: line-through;
+  margin-left: 5px;
 }
-/* Find the .add-to-cart-btn section and update it */
+
 .add-to-cart-btn {
+  margin-top: auto;
+  padding: 12px;
   background-color: var(--primary-color);
   color: white;
   border: none;
-  padding: 8px 16px; /* Reduced from 10px 20px */
-  border-radius: 20px; /* Reduced from 25px */
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px; /* Reduced from 8px */
+  border-radius: 8px;
   font-weight: 600;
-  font-size: 0.9rem; /* Added font size */
+  cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  min-width: 120px; /* Ensure minimum width */
-  justify-content: center;
+  font-size: 1rem;
 }
 
 .add-to-cart-btn::before {
@@ -174,7 +109,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
   transition: 0.5s;
 }
 
@@ -184,5 +119,5 @@
 
 .add-to-cart-btn:hover {
   background-color: var(--accent-color);
-  transform: translateX(3px); /* Reduced from 5px */
+  transform: translateY(-2px);
 }

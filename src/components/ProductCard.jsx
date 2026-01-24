@@ -1,51 +1,44 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import './ProductCard.css';
 
-const ProductCard = ({ product, addToCart }) => {
+const ProductCard = ({ product, onAddToCart }) => {
+  const renderStars = (rating) => {
+    const stars = [];
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    
+    for (let i = 0; i < 5; i++) {
+      if (i < fullStars) {
+        stars.push(<i key={i} className="fas fa-star"></i>);
+      } else if (i === fullStars && hasHalfStar) {
+        stars.push(<i key={i} className="fas fa-star-half-alt"></i>);
+      } else {
+        stars.push(<i key={i} className="far fa-star"></i>);
+      }
+    }
+    
+    return stars;
+  };
+
   return (
     <div className="product-card">
       <div className="product-image">
         <img src={product.image} alt={product.name} />
-        <div className="product-tags">
-          <span className="eco-badge">Eco-Friendly</span>
-          {product.isNew && <span className="new-badge">New</span>}
+        <div className="eco-badge">
+          <i className="fas fa-leaf"></i>
+          {product.ecoPoints} pts
         </div>
-        <button className="quick-view-btn">Quick View</button>
       </div>
-      
-      <div className="product-info">
-        <h3 className="product-name">{product.name}</h3>
-        <p className="product-description">{product.description}</p>
-        
-        <div className="product-meta">
-          <div className="eco-points">
-            <i className="fas fa-leaf"></i>
-            <span>{product.ecoPoints} Eco Points</span>
-          </div>
-          <div className="product-rating">
-            {[...Array(5)].map((_, i) => (
-              <i key={i} className={`fas fa-star ${i < product.rating ? 'filled' : ''}`}></i>
-            ))}
-            <span>({product.reviews})</span>
-          </div>
+      <div className="product-content">
+        <h4>{product.name}</h4>
+        <div className="product-price">${product.price.toFixed(2)}</div>
+        <div className="product-rating">
+          {renderStars(product.rating)}
+          <span>({product.rating})</span>
         </div>
-        
-        <div className="product-footer">
-          <div className="price-container">
-            <span className="current-price">₹{product.price}</span>
-            {product.originalPrice && (
-              <span className="original-price">₹{product.originalPrice}</span>
-            )}
-          </div>
-          <button 
-            className="add-to-cart-btn"
-            onClick={() => addToCart(product)}
-          >
-            <span>Add to Cart</span>
-            <i className="fas fa-shopping-bag"></i>
-          </button>
-        </div>
+        <button className="add-to-cart-btn" onClick={onAddToCart}>
+          Add to Cart
+        </button>
       </div>
     </div>
   );

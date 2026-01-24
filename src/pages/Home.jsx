@@ -1,377 +1,221 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import ProductCard from '../components/ProductCard';
 import './Home.css';
+import CategoryCard from '../components/CategoryCard';
+import ProductCard from '../components/ProductCard';
 
 const Home = ({ addToCart }) => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [activeCategory, setActiveCategory] = useState('home-living');
-
-  // Hero slides based on YOUR original categories
-  const slides = [
-    {
-      id: 1,
-      image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1600",
-      title: "Gifts they'll Keep",
-      description: "Thoughtful presents that make a lasting impression and positive impact",
-      category: "gifts-zero-waste-kits"
-    },
-    {
-      id: 2,
-      image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1600",
-      title: "Home & Living",
-      description: "Sustainable products for an eco-conscious home",
-      category: "home-living"
-    },
-    {
-      id: 3,
-      image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?w=1600",
-      title: "Personal Care",
-      description: "Natural products for your wellness routine",
-      category: "personal-care"
-    },
-    {
-      id: 4,
-      image: "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=1600",
-      title: "Fashion & Accessories",
-      description: "Ethical fashion that looks good and does good",
-      category: "fashion-accessories"
-    }
-  ];
-
-  // Use YOUR original categories (not Brown Living's)
+  const [activeCategory, setActiveCategory] = useState('Home & Living');
+  
+  // Category data
   const categories = [
     { 
-      id: 'home-living', 
-      name: 'Home & Living',
-      subcategories: ['Reusable Kitchen', 'Bamboo Products', 'Eco Cleaning', 'Storage']
+      id: 1, 
+      name: 'Home & Living', 
+      icon: '🏠',
+      subcategories: ['Reusable Kitchen', 'Bamboo Products', 'Eco Cleaning', 'Storage'],
+      productCount: 28,
+      color: '#75B06F',
+      image: 'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
     },
     { 
-      id: 'personal-care', 
-      name: 'Personal Care',
-      subcategories: ['Soaps', 'Hair Care', 'Skin Care', 'Oral Care']
+      id: 2, 
+      name: 'Personal Care', 
+      icon: '🧴',
+      subcategories: ['Soaps', 'Hair Care', 'Skin Care', 'Oral Care'],
+      productCount: 32,
+      color: '#8BC34A',
+      image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
     },
     { 
-      id: 'fashion-accessories', 
-      name: 'Fashion & Accessories',
-      subcategories: ['Organic Clothing', 'Eco Bags', 'Footwear', 'Accessories', 'Upcycled Items']
+      id: 3, 
+      name: 'Fashion & Accessories', 
+      icon: '👕',
+      subcategories: ['Organic Clothing', 'Eco Bags', 'Footwear', 'Accessories', 'Upcycled Items'],
+      productCount: 45,
+      color: '#4CAF50',
+      image: 'https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
     },
     { 
-      id: 'gifts-zero-waste-kits', 
-      name: 'Gifts & Zero-Waste Kits',
-      subcategories: ['Starter Kits', 'Festival Gifts', 'Corporate Gifts', 'Travel Kits']
+      id: 4, 
+      name: 'Gifts & Zero-Waste Kits', 
+      icon: '🎁',
+      subcategories: ['Starter Kits', 'Festival Gifts', 'Corporate Gifts', 'Travel Kits'],
+      productCount: 24,
+      color: '#2E7D32',
+      image: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
     }
   ];
 
-  // Featured products
-  const featuredProducts = [
+  // Video data
+  const videos = [
     {
       id: 1,
-      name: "Bamboo Toothbrush Set",
-      description: "Natural bamboo handles with charcoal bristles",
-      price: 299,
-      originalPrice: 399,
-      rating: 4.5,
-      reviews: 128,
-      ecoPoints: 50,
-      image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400",
-      isNew: true,
-      category: "personal-care"
+      title: 'Sustainable Living Tips',
+      description: 'Learn how to reduce waste in your daily life',
+      duration: '5:32',
+      thumbnail: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      isLarge: true
     },
     {
       id: 2,
-      name: "Reusable Cotton Produce Bags",
-      description: "Set of 5 mesh bags for grocery shopping",
-      price: 449,
-      rating: 4.8,
-      reviews: 256,
-      ecoPoints: 75,
-      image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400",
-      isNew: false,
-      category: "home-living"
+      title: 'Eco-friendly DIY',
+      description: 'Make your own zero-waste products',
+      duration: '3:45',
+      thumbnail: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
     },
     {
       id: 3,
-      name: "Natural Loofah Sponge",
-      description: "100% organic and biodegradable loofah",
-      price: 199,
-      rating: 4.3,
-      reviews: 89,
-      ecoPoints: 30,
-      image: "https://images.unsplash.com/photo-1594736797933-d0c6e4d6d6c4?w=400",
-      isNew: true,
-      category: "personal-care"
-    },
-    {
-      id: 4,
-      name: "Stainless Steel Straws Kit",
-      description: "Set of 4 straws with cleaning brush",
-      price: 349,
-      originalPrice: 499,
-      rating: 4.7,
-      reviews: 312,
-      ecoPoints: 60,
-      image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=400",
-      isNew: false,
-      category: "home-living"
+      title: 'Behind the Scenes',
+      description: 'How our products are made sustainably',
+      duration: '4:15',
+      thumbnail: 'https://images.unsplash.com/photo-1488459716781-31db52582fe9?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
     }
   ];
 
-  // Auto slide every 5 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      nextSlide();
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [currentSlide]);
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  // Product data by subcategory
+  const subcategoryProducts = {
+    'Reusable Kitchen': [
+      { id: 1, name: 'Bamboo Cutlery Set', price: 24.99, ecoPoints: 120, image: 'https://images.unsplash.com/photo-1585238342070-61e1e2b6c8d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.5 },
+      { id: 2, name: 'Silicone Food Covers', price: 18.50, ecoPoints: 90, image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.2 },
+      { id: 3, name: 'Reusable Coffee Cup', price: 22.99, ecoPoints: 110, image: 'https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.7 },
+      { id: 4, name: 'Beeswax Wraps', price: 16.99, ecoPoints: 80, image: 'https://images.unsplash.com/photo-1581497396204-9a7518071f58?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.4 }
+    ],
+    'Bamboo Products': [
+      { id: 5, name: 'Bamboo Toothbrush', price: 8.99, ecoPoints: 45, image: 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.3 },
+      { id: 6, name: 'Bamboo Cutting Board', price: 34.99, ecoPoints: 150, image: 'https://images.unsplash.com/photo-1543246652-7f5a5c332b8a?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.6 },
+      { id: 7, name: 'Bamboo Straw Set', price: 12.99, ecoPoints: 65, image: 'https://images.unsplash.com/photo-1561882468-9110e03e0f78?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.1 },
+      { id: 8, name: 'Bamboo Utensil Set', price: 19.99, ecoPoints: 100, image: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.8 }
+    ],
+    'Soaps': [
+      { id: 9, name: 'Lavender Bar Soap', price: 6.99, ecoPoints: 35, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.4 },
+      { id: 10, name: 'Charcoal Face Soap', price: 9.99, ecoPoints: 50, image: 'https://images.unsplash.com/photo-1594736797933-d0c6e4d6d6c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.5 },
+      { id: 11, name: 'Tea Tree Soap', price: 7.50, ecoPoints: 38, image: 'https://images.unsplash.com/photo-1592417817098-8fd3d9eb14a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.2 },
+      { id: 12, name: 'Organic Shampoo Bar', price: 11.99, ecoPoints: 60, image: 'https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.7 }
+    ],
+    'Hair Care': [
+      { id: 13, name: 'Bamboo Hair Brush', price: 14.99, ecoPoints: 75, image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.6 },
+      { id: 14, name: 'Natural Conditioner', price: 16.99, ecoPoints: 85, image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.3 },
+      { id: 15, name: 'Herbal Hair Oil', price: 19.99, ecoPoints: 100, image: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.8 },
+      { id: 16, name: 'Scalp Massager', price: 9.99, ecoPoints: 50, image: 'https://images.unsplash.com/photo-1596703923338-48f1c07e4f2e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.1 }
+    ]
   };
 
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  const handleAddToCart = (product) => {
+    addToCart(product);
+    alert(`${product.name} added to cart! +${product.ecoPoints} eco points earned!`);
   };
-
-  const goToSlide = (index) => {
-    setCurrentSlide(index);
-    // Update active category based on slide
-    setActiveCategory(slides[index].category);
-  };
-
-  const handleCategoryClick = (categoryId) => {
-    setActiveCategory(categoryId);
-    // Find slide index for this category
-    const slideIndex = slides.findIndex(slide => slide.category === categoryId);
-    if (slideIndex !== -1) {
-      setCurrentSlide(slideIndex);
-    }
-  };
-
-  // Filter featured products by active category
-  const filteredProducts = activeCategory === 'all' 
-    ? featuredProducts 
-    : featuredProducts.filter(product => product.category === activeCategory);
 
   return (
-    <div className="home">
-      {/* Hero Slider */}
+    <div className="home-page">
+      {/* Hero Slider Section */}
       <section className="hero-slider">
-        <div className="slides-container">
-          {slides.map((slide, index) => (
-            <div
-              key={slide.id}
-              className={`slide ${index === currentSlide ? 'active' : ''}`}
-              style={{ backgroundImage: `url(${slide.image})` }}
-            >
-              <div className="slide-overlay">
-                <div className="slide-content">
-                  <h2 className="text-appear">{slide.title}</h2>
-                  <p>{slide.description}</p>
-                  <Link to={`/category/${slide.category}`} className="btn-primary">
-                    Shop Now
-                  </Link>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Navigation buttons */}
-        <button className="slide-nav slide-prev" onClick={prevSlide}>
-          <i className="fas fa-chevron-left"></i>
-        </button>
-        <button className="slide-nav slide-next" onClick={nextSlide}>
-          <i className="fas fa-chevron-right"></i>
-        </button>
-
-        {/* Slide indicators */}
-        <div className="slide-indicators">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              className={`slide-indicator ${index === currentSlide ? 'active' : ''}`}
-              onClick={() => goToSlide(index)}
-            />
-          ))}
+        <div className="slide">
+          <div className="slide-content">
+            <h1>Sustainable Living Made Beautiful</h1>
+            <p>Discover eco-friendly products that are good for you and the planet. Earn eco points with every purchase!</p>
+            <Link to="/category/home-living" className="btn-primary">Shop Now</Link>
+          </div>
         </div>
       </section>
 
-      {/* Shop Categories Navigation - Using YOUR original categories */}
-      <section className="shop-categories">
+      {/* Shop by Category Section */}
+      <section className="shop-by-category">
         <div className="container">
-          <nav className="categories-nav">
-            <button
-              className={`category-nav-item ${activeCategory === 'all' ? 'active' : ''}`}
-              onClick={() => setActiveCategory('all')}
-            >
-              All
-            </button>
+          <h2 className="section-title">Shop by Category</h2>
+          <div className="category-grid">
             {categories.map((category) => (
-              <button
-                key={category.id}
-                className={`category-nav-item ${activeCategory === category.id ? 'active' : ''}`}
-                onClick={() => handleCategoryClick(category.id)}
-              >
-                {category.name}
-              </button>
-            ))}
-          </nav>
-        </div>
-      </section>
-
-      {/* Sustainability Guide */}
-      <section className="sustainability-guide">
-        <div className="container">
-          <Link to="/sustainability-guide">
-            <i className="fas fa-book"></i>
-            Sustainability Guide
-            <i className="fas fa-arrow-right"></i>
-          </Link>
-        </div>
-      </section>
-
-      {/* Category Subcategories */}
-      <section className="category-subcategories">
-        <div className="container">
-          {categories
-            .filter(cat => cat.id === activeCategory)
-            .map(category => (
-              <div key={category.id} className="subcategories-container">
-                <h3>Shop {category.name}</h3>
-                <div className="subcategories-grid">
-                  {category.subcategories.map((sub, index) => (
-                    <Link
-                      key={index}
-                      to={`/category/${category.id}/${sub.toLowerCase().replace(/ /g, '-')}`}
-                      className="subcategory-card"
-                    >
-                      <div className="subcategory-icon">
-                        <i className={`fas fa-${getSubcategoryIcon(sub)}`}></i>
-                      </div>
-                      <span>{sub}</span>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            ))}
-        </div>
-      </section>
-
-      {/* Featured Products */}
-      <section className="featured-products">
-        <div className="container">
-          <h2 className="section-title">
-            {activeCategory === 'all' ? 'Featured Products' : `Featured in ${categories.find(c => c.id === activeCategory)?.name}`}
-          </h2>
-          <div className="products-grid">
-            {filteredProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                addToCart={addToCart}
+              <CategoryCard 
+                key={category.id} 
+                category={category}
+                onClick={() => setActiveCategory(category.name)}
+                isActive={activeCategory === category.name}
               />
             ))}
           </div>
-          <div className="text-center">
-            <Link to={`/category/${activeCategory}`} className="btn-secondary">
-              View All {activeCategory === 'all' ? 'Products' : categories.find(c => c.id === activeCategory)?.name}
-            </Link>
+        </div>
+      </section>
+
+      {/* Video Grid Section */}
+      <section className="video-grid-section">
+        <div className="container">
+          <h2 className="section-title">Eco Inspiration</h2>
+          <div className="video-grid">
+            <div className="video-main">
+              <div className="video-card large">
+                <img src={videos[0].thumbnail} alt={videos[0].title} />
+                <div className="video-overlay">
+                  <div className="play-button">
+                    <i className="fas fa-play"></i>
+                  </div>
+                  <div className="video-info">
+                    <h3>{videos[0].title}</h3>
+                    <p>{videos[0].description}</p>
+                    <span className="video-duration">{videos[0].duration}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="video-side">
+              {videos.slice(1).map((video) => (
+                <div className="video-card small" key={video.id}>
+                  <img src={video.thumbnail} alt={video.title} />
+                  <div className="video-overlay">
+                    <div className="play-button">
+                      <i className="fas fa-play"></i>
+                    </div>
+                    <div className="video-info">
+                      <h4>{video.title}</h4>
+                      <span className="video-duration">{video.duration}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Chat Widget */}
-      <div className="chat-widget">
-        <button className="chat-button">
-          <i className="fas fa-comment"></i>
-        </button>
-      </div>
-
-      {/* Eco Points Banner */}
-      <section className="eco-points-banner">
+      {/* Subcategory Product Sections */}
+      <section className="subcategory-products">
         <div className="container">
-          <div className="banner-content">
-            <div className="banner-icon">
-              <i className="fas fa-leaf"></i>
-            </div>
-            <div className="banner-text">
-              <h2>Earn Eco Points with Every Purchase</h2>
-              <p>
-                Collect points and redeem them for discounts on future orders.
-                Every purchase makes a difference!
-              </p>
-            </div>
-            <div className="banner-points">
-              <div className="points-value">100 Points = ₹50 Off</div>
-            </div>
+          <div className="subcategory-tabs">
+            {categories
+              .find(cat => cat.name === activeCategory)
+              ?.subcategories.map((subcategory, index) => (
+                <button 
+                  key={index}
+                  className={`subcategory-tab ${index === 0 ? 'active' : ''}`}
+                >
+                  {subcategory}
+                </button>
+              ))}
           </div>
-        </div>
-      </section>
 
-      {/* Why Choose Us */}
-      <section className="why-choose-us">
-        <div className="container">
-          <h2 className="section-title">Why Choose Gaiaa?</h2>
-          <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-leaf"></i>
+          {Object.entries(subcategoryProducts).map(([subcategory, products]) => (
+            <div key={subcategory} className="subcategory-section">
+              <div className="subcategory-header">
+                <h3 className="subcategory-title">{subcategory}</h3>
+                <Link to={`/category/${activeCategory.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}/${subcategory.toLowerCase().replace(/ /g, '-')}`} 
+                      className="view-all-btn">
+                  View All <i className="fas fa-arrow-right"></i>
+                </Link>
               </div>
-              <h3>100% Eco-Friendly</h3>
-              <p>All products are sustainable and biodegradable</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-truck"></i>
+              <div className="products-grid">
+                {products.map((product) => (
+                  <ProductCard 
+                    key={product.id} 
+                    product={product} 
+                    onAddToCart={() => handleAddToCart(product)}
+                  />
+                ))}
               </div>
-              <h3>Carbon Neutral Shipping</h3>
-              <p>We offset carbon emissions from all deliveries</p>
             </div>
-            <div className="feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-recycle"></i>
-              </div>
-              <h3>Plastic-Free Packaging</h3>
-              <p>All items shipped in compostable materials</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-hand-holding-heart"></i>
-              </div>
-              <h3>Supports NGOs</h3>
-              <p>5% of profits donated to environmental causes</p>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
     </div>
   );
 };
-
-// Helper function for subcategory icons
-function getSubcategoryIcon(subcategory) {
-  const icons = {
-    'Reusable Kitchen': 'utensils',
-    'Bamboo Products': 'leaf',
-    'Eco Cleaning': 'broom',
-    'Storage': 'box',
-    'Soaps': 'soap',
-    'Hair Care': 'spray-can',
-    'Skin Care': 'spa',
-    'Oral Care': 'tooth',
-    'Organic Clothing': 'tshirt',
-    'Eco Bags': 'shopping-bag',
-    'Footwear': 'shoe-prints',
-    'Accessories': 'gem',
-    'Upcycled Items': 'recycle',
-    'Starter Kits': 'box-open',
-    'Festival Gifts': 'gift',
-    'Corporate Gifts': 'briefcase',
-    'Travel Kits': 'suitcase'
-  };
-  
-  return icons[subcategory] || 'tag';
-}
 
 export default Home;
