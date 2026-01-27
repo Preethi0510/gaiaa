@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import Navbar from './components/Navbar';      // REMOVE .jsx
-import BiologyFact from './components/BiologyFact';  // REMOVE .jsx
-import Footer from './components/Footer';      // REMOVE .jsx
-import BackToTop from './components/BackToTop';  // REMOVE .jsx
-import DiscountPopup from './components/DiscountPopup';  // REMOVE .jsx
-import Home from './pages/Home';              // REMOVE .jsx
-import CategoryPage from './pages/CategoryPage';  // REMOVE .jsx
-import ProductPage from './pages/ProductPage';  // REMOVE .jsx
-import Cart from './pages/Cart';              // REMOVE .jsx
-import Login from './pages/Login';            // REMOVE .jsx
-import Signup from './pages/Signup';          // REMOVE .jsx
+import Navbar from './components/Navbar';
+import BiologyFact from './components/BiologyFact';
+import Footer from './components/Footer';
+import BackToTop from './components/BackToTop';
+import DiscountPopup from './components/DiscountPopup';
+import Home from './pages/Home';
+import CategoryPage from './pages/CategoryPage';
+import ProductPage from './pages/ProductPage';
+import Cart from './pages/Cart';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -52,4 +52,4 @@ function App() {
   );
 }
 
-export default App;
+export default App

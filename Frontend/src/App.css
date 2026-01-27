@@ -1,12 +1,14 @@
 :root {
-  --primary-color: #75B06F;
-  --secondary-color: #DAD887;
-  --accent-color: #5A8F55;
+  --primary-green: #75B06F;
+  --dark-teal: #36656B;
+  --light-yellow: #DAD887;
+  --pale-yellow: #F0F8A4;
   --light-bg: #F9F9F7;
   --text-dark: #2C3E50;
   --text-light: #5D6D7E;
   --white: #FFFFFF;
   --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --gradient-green: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-teal) 100%);
 }
 
 * {
@@ -34,57 +36,52 @@ body {
   padding: 0 20px;
 }
 
-.btn-primary {
-  background-color: var(--primary-color);
+/* Oval Buttons */
+.oval-btn {
+  background-color: var(--primary-green);
   color: white;
   border: none;
-  padding: 12px 24px;
-  border-radius: 30px;
+  padding: 14px 32px;
+  border-radius: 50px;
   cursor: pointer;
   font-weight: 600;
-  transition: all 0.3s ease;
+  font-size: 16px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
   z-index: 1;
+  letter-spacing: 0.5px;
 }
 
-.btn-primary::before {
+.oval-btn::before {
   content: '';
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-  transition: 0.5s;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: 0.6s;
   z-index: -1;
 }
 
-.btn-primary:hover::before {
+.oval-btn:hover::before {
   left: 100%;
 }
 
-.btn-primary:hover {
-  background-color: var(--accent-color);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow);
+.oval-btn:hover {
+  background-color: var(--dark-teal);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(54, 101, 107, 0.2);
 }
 
-.btn-secondary {
-  background-color: var(--secondary-color);
+.oval-btn-secondary {
+  background-color: var(--light-yellow);
   color: var(--text-dark);
-  border: none;
-  padding: 12px 24px;
-  border-radius: 30px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
 }
 
-.btn-secondary:hover {
-  background-color: #C9C570;
-  transform: translateY(-2px);
-  box-shadow: var(--shadow);
+.oval-btn-secondary:hover {
+  background-color: var(--pale-yellow);
 }
 
 .section-title {
@@ -103,67 +100,18 @@ body {
   transform: translateX(-50%);
   width: 100px;
   height: 4px;
-  background-color: var(--primary-color);
+  background-color: var(--primary-green);
   border-radius: 2px;
 }
 
 .eco-points-badge {
-  background-color: var(--secondary-color);
+  background-color: var(--light-yellow);
   color: var(--text-dark);
-  padding: 4px 12px;
+  padding: 6px 14px;
   border-radius: 20px;
   font-size: 0.85rem;
   font-weight: 600;
   display: inline-flex;
   align-items: center;
   gap: 5px;
-}/* Add this to the end of App.css */
-.main-content {
-  flex: 1;
-  min-height: calc(100vh - 400px); /* Adjust based on your header/footer height */
-}
-/* Add to existing App.css */
-
-/* Button hover effect - swipe right */
-.btn-hover-effect {
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
-
-.btn-hover-effect::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  transition: 0.6s;
-  z-index: -1;
-}
-
-.btn-hover-effect:hover::before {
-  left: 100%;
-}
-
-/* Responsive adjustments */
-@media (max-width: 1200px) {
-  .container {
-    max-width: 95%;
-  }
-}
-
-/* Animation classes */
-.fade-in {
-  animation: fadeIn 0.8s ease-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }

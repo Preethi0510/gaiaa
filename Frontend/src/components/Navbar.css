@@ -2,7 +2,7 @@
   background-color: var(--white);
   box-shadow: var(--shadow);
   position: sticky;
-  top: 0;
+  top: 44px;
   z-index: 1000;
   padding: 15px 0;
 }
@@ -23,10 +23,14 @@
 }
 
 .logo h1 {
-  color: var(--primary-color);
+  color: var(--primary-green);
   font-size: 2.2rem;
-  font-weight: 700;
-  letter-spacing: 1px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  background: linear-gradient(45deg, var(--primary-green), var(--dark-teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .menu-btn {
@@ -42,14 +46,14 @@
 .menu-btn span {
   width: 25px;
   height: 3px;
-  background-color: var(--primary-color);
+  background-color: var(--primary-green);
   border-radius: 2px;
   transition: 0.3s;
 }
 
 .nav-center {
   display: flex;
-  gap: 30px;
+  gap: 25px;
 }
 
 .dropdown {
@@ -63,6 +67,7 @@
   padding: 10px 0;
   transition: color 0.3s;
   position: relative;
+  font-size: 15px;
 }
 
 .nav-link::after {
@@ -71,8 +76,9 @@
   bottom: 0;
   left: 0;
   width: 0;
-  height: 2px;
-  background-color: var(--primary-color);
+  height: 3px;
+  background-color: var(--primary-green);
+  border-radius: 2px;
   transition: width 0.3s;
 }
 
@@ -85,14 +91,15 @@
   top: 100%;
   left: 0;
   background-color: var(--white);
-  min-width: 200px;
+  min-width: 220px;
   box-shadow: var(--shadow);
-  border-radius: 8px;
+  border-radius: 10px;
   opacity: 0;
   visibility: hidden;
   transform: translateY(10px);
   transition: all 0.3s ease;
   z-index: 100;
+  padding: 10px 0;
 }
 
 .dropdown:hover .dropdown-content {
@@ -103,11 +110,12 @@
 
 .dropdown-content a {
   display: block;
-  padding: 12px 20px;
+  padding: 12px 25px;
   color: var(--text-dark);
   text-decoration: none;
   border-bottom: 1px solid #eee;
   transition: all 0.3s;
+  font-size: 14px;
 }
 
 .dropdown-content a:last-child {
@@ -116,8 +124,8 @@
 
 .dropdown-content a:hover {
   background-color: var(--light-bg);
-  color: var(--primary-color);
-  padding-left: 25px;
+  color: var(--primary-green);
+  padding-left: 30px;
 }
 
 .nav-right {
@@ -133,6 +141,11 @@
   border-radius: 30px;
   padding: 5px 15px;
   border: 1px solid #ddd;
+  transition: border-color 0.3s;
+}
+
+.search-box:focus-within {
+  border-color: var(--primary-green);
 }
 
 .search-box input {
@@ -141,13 +154,19 @@
   padding: 8px;
   width: 200px;
   outline: none;
+  color: var(--text-dark);
 }
 
 .search-btn {
   background: none;
   border: none;
-  color: var(--primary-color);
+  color: var(--primary-green);
   cursor: pointer;
+  transition: color 0.3s;
+}
+
+.search-btn:hover {
+  color: var(--dark-teal);
 }
 
 .auth-link {
@@ -155,10 +174,11 @@
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s;
+  font-size: 15px;
 }
 
 .auth-link:hover {
-  color: var(--primary-color);
+  color: var(--primary-green);
 }
 
 .cart-icon {
@@ -166,13 +186,18 @@
   color: var(--text-dark);
   font-size: 1.2rem;
   text-decoration: none;
+  transition: color 0.3s;
+}
+
+.cart-icon:hover {
+  color: var(--primary-green);
 }
 
 .cart-count {
   position: absolute;
   top: -8px;
   right: -8px;
-  background-color: var(--primary-color);
+  background-color: var(--primary-green);
   color: white;
   font-size: 0.7rem;
   width: 18px;
@@ -181,6 +206,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: 600;
 }
 
 @media (max-width: 768px) {
@@ -190,18 +216,25 @@
   
   .nav-center {
     position: fixed;
-    top: 70px;
-    left: -100%;
+    top: 100px;
+    left: 0;
     width: 100%;
     background-color: var(--white);
     flex-direction: column;
+    align-items: center;
     padding: 20px;
-    transition: left 0.3s ease;
     box-shadow: var(--shadow);
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 999;
   }
   
   .nav-center.active {
-    left: 0;
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
   }
   
   .search-box input {
@@ -210,5 +243,15 @@
   
   .nav-right {
     gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo h1 {
+    font-size: 1.8rem;
+  }
+  
+  .search-box {
+    display: none;
   }
 }

@@ -8,20 +8,25 @@ const Navbar = ({ cartCount }) => {
 
   const categories = [
     {
-      name: 'Home & Living',
-      subcategories: ['Reusable Kitchen', 'Bamboo Products', 'Eco Cleaning', 'Storage']
+      name: 'SHOP',
+      subcategories: ['All Products', 'New Arrivals', 'Best Sellers', 'On Sale']
+
     },
     {
-      name: 'Personal Care',
-      subcategories: ['Soaps', 'Hair Care', 'Skin Care', 'Oral Care']
+      name: 'CARE',
+      subcategories: ['Oral Care', 'Hair Care', 'Face Care', 'Body Care']
     },
     {
-      name: 'Fashion & Accessories',
-      subcategories: ['Organic Clothing', 'Eco Bags', 'Footwear', 'Accessories', 'Upcycled Items']
+      name: 'HOME & LIVING',
+      subcategories: ['Kitchenware', 'Tableware', 'Gardening Tools', 'Candles', 'Bathroom Essentials', 'Yoga Essentials']
     },
     {
-      name: 'Gifts & Zero-Waste Kits',
-      subcategories: ['Starter Kits', 'Festival Gifts', 'Corporate Gifts', 'Travel Kits']
+      name: 'FASHION',
+      subcategories: ['Dresses', 'Tops', 'Bottoms', 'Ethnic Wears', 'Accessories']
+    },
+    {
+      name: 'FOOD',
+      subcategories: ['Tea', 'Coffee', 'Beverages', 'Healthy Foods']
     }
   ];
 
@@ -62,7 +67,7 @@ const Navbar = ({ cartCount }) => {
           <div className="search-box">
             <input
               type="text"
-              placeholder="Search eco-friendly products..."
+              placeholder="Search sustainable products..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
