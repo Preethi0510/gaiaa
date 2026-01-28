@@ -10,9 +10,7 @@ const BiologyFact = () => {
     "🎋 Bamboo grows up to 35 inches per day - the fastest-growing plant",
     "🌊 Over 50% of the world's oxygen comes from the ocean",
     "♻️ Recycling one aluminum can saves enough energy for 3 hours of TV",
-    "🐝 A bee visits 50-100 flowers during one collection trip",
-    "🌱 Earthworms consume up to one-third of their body weight daily",
-    "☀️ Plants convert sunlight into energy through photosynthesis"
+    "🐝 A bee visits 50-100 flowers during one collection trip"
   ];
 
   useEffect(() => {
@@ -23,10 +21,10 @@ const BiologyFact = () => {
   }, []);
 
   return (
-    <div className="biology-fact">
+    <div className="biology-fact-simple">
       <div className="fact-container">
         <div className="fact-icon">
-          <i className="fas fa-seedling"></i>
+          <i className="fas fa-leaf"></i>
         </div>
         <div className="fact-text">
           <p>{biologyFacts[currentFact]}</p>

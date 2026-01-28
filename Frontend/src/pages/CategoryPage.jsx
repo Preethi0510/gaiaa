@@ -6,89 +6,78 @@ import ProductCard from '../components/ProductCard';
 const CategoryPage = ({ addToCart }) => {
   const { categoryName } = useParams();
   const [activeSubcategory, setActiveSubcategory] = useState('All');
-  
-  // Category hero images
-  const categoryHeroes = {
+
+  // Static category hero data (not sliding)
+  const categoryData = {
     'care': {
-      title: 'Natural Care Collection',
-      description: 'Pamper yourself with chemical-free, sustainable personal care products',
-      image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80',
-      color: '#75B06F'
+      title: 'CARE',
+      description: 'Natural, chemical-free personal care products for your well-being',
+      heroImage: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80',
+      color: '#75B06F',
+      subcategories: ['Oral Care', 'Hair Care', 'Face Care', 'Body Care'],
+      icon: '🧴'
     },
     'home-living': {
-      title: 'Sustainable Home Essentials',
-      description: 'Transform your living space with eco-friendly home products',
-      image: 'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80',
-      color: '#36656B'
+      title: 'HOME & LIVING',
+      description: 'Transform your home with eco-friendly essentials',
+      heroImage: 'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80',
+      color: '#36656B',
+      subcategories: ['Kitchenware', 'Tableware', 'Gardening Tools', 'Candles', 'Bathroom Essentials', 'Yoga Essentials'],
+      icon: '🏠'
     },
     'fashion': {
-      title: 'Eco-Friendly Fashion',
-      description: 'Stylish clothing and accessories made with sustainable materials',
-      image: 'https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80',
-      color: '#DAD887'
+      title: 'FASHION',
+      description: 'Ethical fashion that looks good and does good',
+      heroImage: 'https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80',
+      color: '#DAD887',
+      subcategories: ['Dresses', 'Tops', 'Bottoms', 'Ethnic Wears', 'Accessories'],
+      icon: '👗'
     },
     'food': {
-      title: 'Organic & Healthy Foods',
-      description: 'Nourish your body with sustainably sourced, organic food products',
-      image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80',
-      color: '#F0F8A4'
+      title: 'FOOD',
+      description: 'Organic, sustainable food for healthy living',
+      heroImage: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80',
+      color: '#F0F8A4',
+      subcategories: ['Tea', 'Coffee', 'Beverages', 'Healthy Foods'],
+      icon: '🍵'
     }
   };
 
-  const currentCategory = categoryHeroes[categoryName] || categoryHeroes.care;
+  // ... rest of the category page code ...
 
   return (
     <div className="category-page">
-      {/* Category Hero Section */}
-      <section className="category-hero" style={{ backgroundColor: currentCategory.color }}>
+      {/* Static Category Hero (NOT SLIDING) */}
+      <section className="static-category-hero" style={{ 
+        backgroundColor: currentCategory.color
+      }}>
         <div className="container">
-          <div className="category-hero-content">
+          <div className="static-hero-content">
+            <div className="category-icon-large">{currentCategory.icon}</div>
             <h1>{currentCategory.title}</h1>
             <p>{currentCategory.description}</p>
-            <div className="hero-stats">
+            <div className="category-stats">
               <div className="stat">
-                <span className="stat-number">150+</span>
-                <span className="stat-label">Products</span>
+                <span className="number">{products.length}</span>
+                <span className="label">Products</span>
               </div>
               <div className="stat">
-                <span className="stat-number">4.8</span>
-                <span className="stat-label">Average Rating</span>
+                <span className="number">4.7</span>
+                <span className="label">Avg Rating</span>
               </div>
               <div className="stat">
-                <span className="stat-number">100%</span>
-                <span className="stat-label">Sustainable</span>
+                <span className="number">{currentCategory.subcategories.length}</span>
+                <span className="label">Collections</span>
               </div>
             </div>
           </div>
-          <div className="category-hero-image">
-            <img src={currentCategory.image} alt={currentCategory.title} />
+          <div className="hero-image-container">
+            <img src={currentCategory.heroImage} alt={currentCategory.title} className="hero-image" />
           </div>
         </div>
       </section>
 
-      {/* Category Content */}
-      <section className="category-content">
-        <div className="container">
-          <div className="category-tabs">
-            {['All', 'Oral Care', 'Hair Care', 'Face Care', 'Body Care'].map((subcat) => (
-              <button
-                key={subcat}
-                className={`category-tab oval-btn ${activeSubcategory === subcat ? 'active' : ''}`}
-                onClick={() => setActiveSubcategory(subcat)}
-              >
-                {subcat}
-              </button>
-            ))}
-          </div>
-
-          <div className="category-products">
-            <h2>Featured Products</h2>
-            <div className="products-grid three-column">
-              {/* Add your product cards here */}
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ... rest of category page ... */}
     </div>
   );
 };

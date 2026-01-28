@@ -31,13 +31,17 @@ const ProductCard = ({ product, onAddToCart }) => {
       </div>
       <div className="product-content">
         <h4>{product.name}</h4>
-        <div className="product-price">${product.price.toFixed(2)}</div>
+        <div className="product-price">${product.price}</div>
         <div className="product-rating">
           {renderStars(product.rating)}
           <span>({product.rating})</span>
         </div>
-        <button className="add-to-cart-btn" onClick={onAddToCart}>
-          Add to Cart
+        <div className="product-category">
+          <span className="category-badge">{product.category}</span>
+          <span className="subcategory-badge">{product.subcategory}</span>
+        </div>
+        <button className="add-to-cart-btn-small" onClick={onAddToCart}>
+          <i className="fas fa-shopping-cart"></i> Add to Cart
         </button>
       </div>
     </div>

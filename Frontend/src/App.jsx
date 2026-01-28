@@ -37,8 +37,20 @@ function App() {
         <BiologyFact />
         <Navbar cartCount={cart.length} />
         <Routes>
+          {/* Home Page */}
           <Route path="/" element={<Home addToCart={addToCart} />} />
+          
+          {/* Category Pages */}
+          <Route path="/category/care" element={<CategoryPage addToCart={addToCart} />} />
+          <Route path="/category/home-living" element={<CategoryPage addToCart={addToCart} />} />
+          <Route path="/category/fashion" element={<CategoryPage addToCart={addToCart} />} />
+          <Route path="/category/food" element={<CategoryPage addToCart={addToCart} />} />
+          
+          {/* Dynamic routes for subcategories */}
           <Route path="/category/:categoryName" element={<CategoryPage addToCart={addToCart} />} />
+          <Route path="/category/:categoryName/:subcategoryName" element={<CategoryPage addToCart={addToCart} />} />
+          
+          {/* Other Pages */}
           <Route path="/product/:productId" element={<ProductPage addToCart={addToCart} />} />
           <Route path="/cart" element={<Cart cart={cart} setCart={setCart} />} />
           <Route path="/login" element={<Login />} />
@@ -52,4 +64,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
