@@ -1,47 +1,43 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './CategoryCard.css';
 
-const CategoryCard = ({ category, onClick, isActive }) => {
+const CategoryCard = ({ category }) => {
+  const navigate = useNavigate();
+
   const getCategoryPath = (name) => {
     return `/category/${name.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`;
   };
 
+  const handleClick = () => {
+    navigate(getCategoryPath(category.name));
+  };
+
   return (
-    <div className="category-card-wrapper">
-      <Link 
-        to={getCategoryPath(category.name)}
-        className="category-card-link"
-        onClick={(e) => {
-          if (onClick) {
-            onClick();
-          }
-        }}
-      >
-        <div className={`category-card ${isActive ? 'active' : ''}`}>
-          <div className="category-image">
-            <img src={category.image} alt={category.name} />
-            <div className="category-icon">{category.icon}</div>
-          </div>
-          <div className="category-content">
-            <h3>{category.name}</h3>
-            <div className="category-subcategories">
-              {category.subcategories.slice(0, 3).map((sub, index) => (
-                <span key={index}>{sub}</span>
-              ))}
-              {category.subcategories.length > 3 && (
-                <span>+{category.subcategories.length - 3} more</span>
-              )}
-            </div>
-            <div className="category-count">
-              {category.productCount} Products
-            </div>
-            <div className="category-link">
-              Explore Category <i className="fas fa-arrow-right"></i>
-            </div>
-          </div>
+    <div 
+      className="category-card" 
+      onClick={handleClick}
+      role="button"
+      tabIndex={0}
+      onKeyPress={(e) => e.key === 'Enter' && handleClick()}
+    >
+      <div className="category-image">
+        <img src={category.image} alt={category.name} />
+      </div>
+      <div className="category-content">
+        <h3>{category.name}</h3>
+        <div className="category-subcategories">
+          {category.subcategories.map((sub, index) => (
+            <span key={index} className="subcategory-tag">{sub}</span>
+          ))}
         </div>
-      </Link>
+        <div className="category-footer">
+          <span className="product-count">{category.productCount} products</span>
+          <span className="explore-link">
+            Explore Collection <i className="fas fa-arrow-right"></i>
+          </span>
+        </div>
+      </div>
     </div>
   );
 };

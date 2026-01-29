@@ -6,10 +6,9 @@ import ProductCard from '../components/ProductCard';
 
 const Home = ({ addToCart }) => {
   const [activeSlide, setActiveSlide] = useState(0);
-  const [activeCategory, setActiveCategory] = useState('Care');
   const videoRefs = useRef([]);
 
-  // Auto-sliding hero slides - 4 categories
+  // Auto-sliding hero slides
   const heroSlides = [
     {
       id: 1,
@@ -19,8 +18,7 @@ const Home = ({ addToCart }) => {
       image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80',
       color: '#75B06F',
       buttonText: 'Shop Care',
-      link: '/category/care',
-      category: 'care'
+      link: '/category/care'
     },
     {
       id: 2,
@@ -30,8 +28,7 @@ const Home = ({ addToCart }) => {
       image: 'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80',
       color: '#36656B',
       buttonText: 'Shop Home',
-      link: '/category/home-living',
-      category: 'home-living'
+      link: '/category/home-living'
     },
     {
       id: 3,
@@ -41,8 +38,7 @@ const Home = ({ addToCart }) => {
       image: 'https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80',
       color: '#DAD887',
       buttonText: 'Shop Fashion',
-      link: '/category/fashion',
-      category: 'fashion'
+      link: '/category/fashion'
     },
     {
       id: 4,
@@ -52,89 +48,80 @@ const Home = ({ addToCart }) => {
       image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80',
       color: '#F0F8A4',
       buttonText: 'Shop Food',
-      link: '/category/food',
-      category: 'food'
+      link: '/category/food'
     }
   ];
 
-  // Only 4 categories for shop section
+  // Professional category data
   const shopCategories = [
     { 
       id: 1, 
       name: 'Care', 
-      icon: '🧴',
       subcategories: ['Oral Care', 'Hair Care', 'Face Care', 'Body Care'],
       productCount: 45,
       color: '#75B06F',
-      image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
-      video: 'https://assets.mixkit.co/videos/preview/mixkit-woman-using-organic-beauty-products-41555-large.mp4'
+      image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
     },
     { 
       id: 2, 
       name: 'Home & Living', 
-      icon: '🏠',
       subcategories: ['Kitchenware', 'Tableware', 'Gardening Tools', 'Candles'],
       productCount: 68,
       color: '#36656B',
-      image: 'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
-      video: 'https://assets.mixkit.co/videos/preview/mixkit-green-plant-in-a-white-pot-39713-large.mp4'
+      image: 'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
     },
     { 
       id: 3, 
       name: 'Fashion', 
-      icon: '👗',
       subcategories: ['Dresses', 'Tops', 'Bottoms', 'Accessories'],
       productCount: 52,
       color: '#DAD887',
-      image: 'https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
-      video: 'https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-woman-sewing-on-a-sewing-machine-41563-large.mp4'
+      image: 'https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
     },
     { 
       id: 4, 
       name: 'Food', 
-      icon: '🍵',
       subcategories: ['Tea', 'Coffee', 'Beverages', 'Healthy Foods'],
       productCount: 38,
       color: '#F0F8A4',
-      image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
-      video: 'https://assets.mixkit.co/videos/preview/mixkit-harvesting-organic-vegetables-from-the-garden-41560-large.mp4'
+      image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
     }
   ];
 
-  // Video collage data - one big, two small
-  const videoCollage = [
+  // Auto-play video URLs (replace with your actual videos)
+  const videoData = [
     {
       id: 1,
-      title: 'Sustainable Living',
-      description: 'Behind the scenes of eco-friendly production',
+      title: 'Sustainable Production',
+      description: 'How we create eco-friendly products',
       size: 'large',
-      video: 'https://assets.mixkit.co/videos/preview/mixkit-woman-using-organic-beauty-products-41555-large.mp4',
-      category: 'Care'
+      videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-woman-using-organic-beauty-products-41555-large.mp4',
+      poster: 'https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
     },
     {
       id: 2,
-      title: 'Eco Fashion',
-      description: 'Creating sustainable clothing',
+      title: 'Eco Packaging',
+      description: 'Zero-waste packaging solutions',
       size: 'small',
-      video: 'https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-woman-sewing-on-a-sewing-machine-41563-large.mp4',
-      category: 'Fashion'
+      videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-hands-wrapping-a-gift-41558-large.mp4',
+      poster: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
     },
     {
       id: 3,
-      title: 'Organic Farming',
-      description: 'From farm to table',
+      title: 'Customer Stories',
+      description: 'Real experiences with our products',
       size: 'small',
-      video: 'https://assets.mixkit.co/videos/preview/mixkit-harvesting-organic-vegetables-from-the-garden-41560-large.mp4',
-      category: 'Food'
+      videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-harvesting-organic-vegetables-from-the-garden-41560-large.mp4',
+      poster: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
     }
   ];
 
   // 20 Products for display
   const allProducts = Array.from({ length: 20 }, (_, index) => ({
     id: index + 1,
-    name: `Eco Product ${index + 1}`,
-    price: (Math.random() * 50 + 10).toFixed(2),
-    ecoPoints: Math.floor(Math.random() * 200 + 50),
+    name: `Premium Sustainable Product ${index + 1}`,
+    price: (Math.random() * 50 + 20).toFixed(2),
+    ecoPoints: Math.floor(Math.random() * 200 + 100),
     image: `https://images.unsplash.com/photo-${1585238342000 + index}?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=${index + 80}`,
     rating: (Math.random() * 1.5 + 3.5).toFixed(1),
     category: ['Care', 'Home & Living', 'Fashion', 'Food'][index % 4],
@@ -149,6 +136,15 @@ const Home = ({ addToCart }) => {
     return () => clearInterval(interval);
   }, []);
 
+  // Auto-play videos on mount
+  useEffect(() => {
+    videoRefs.current.forEach(video => {
+      if (video) {
+        video.play().catch(e => console.log("Auto-play prevented:", e));
+      }
+    });
+  }, []);
+
   const handleAddToCart = (product) => {
     addToCart(product);
     alert(`✓ ${product.name} added to cart! +${product.ecoPoints} eco points earned!`);
@@ -156,7 +152,7 @@ const Home = ({ addToCart }) => {
 
   return (
     <div className="home-page">
-      {/* Auto-Sliding Hero Slider - No arrows */}
+      {/* Auto-Sliding Hero Slider */}
       <section className="auto-slider-hero">
         <div className="slides-container">
           {heroSlides.map((slide, index) => (
@@ -198,12 +194,12 @@ const Home = ({ addToCart }) => {
         </div>
       </section>
 
-      {/* Shop by Category Section - 4 in one row */}
+      {/* Shop by Category Section */}
       <section className="shop-by-category">
         <div className="container">
           <div className="section-header">
             <h2 className="section-title">Shop by Category</h2>
-            <p className="section-subtitle">Explore our sustainable collections</p>
+            <p className="section-subtitle">Discover our sustainable collections</p>
           </div>
           
           <div className="category-cards-four">
@@ -211,38 +207,37 @@ const Home = ({ addToCart }) => {
               <CategoryCard 
                 key={category.id} 
                 category={category}
-                onClick={() => setActiveCategory(category.name)}
-                isActive={activeCategory === category.name}
               />
             ))}
           </div>
         </div>
       </section>
 
-      {/* Video Collage Section - 1 big, 2 small */}
+      {/* Video Collage Section with Auto-play */}
       <section className="video-collage-section">
         <div className="container">
           <div className="section-header">
             <h2 className="section-title">Sustainable Stories</h2>
-            <p className="section-subtitle">See our products in action</p>
+            <p className="section-subtitle">Experience our eco-friendly journey</p>
           </div>
           
           <div className="video-collage-grid">
-            {videoCollage.map((video, index) => (
-              <div 
-                key={video.id} 
-                className={`video-collage-item ${video.size}`}
-              >
-                <div className="video-placeholder">
-                  <div className="play-icon">
-                    <i className="fas fa-play"></i>
+            {videoData.map((video, index) => (
+              <div key={video.id} className={`video-collage-item ${video.size}`}>
+                <div className="video-container">
+                  <video
+                    ref={el => videoRefs.current[index] = el}
+                    src={video.videoUrl}
+                    loop
+                    muted
+                    playsInline
+                    poster={video.poster}
+                    className="auto-play-video"
+                  />
+                  <div className="video-info-overlay">
+                    <h3>{video.title}</h3>
+                    <p>{video.description}</p>
                   </div>
-                  <p>Video: {video.title}</p>
-                </div>
-                <div className="video-info-overlay">
-                  <h3>{video.title}</h3>
-                  <p>{video.description}</p>
-                  <span className="video-category">{video.category}</span>
                 </div>
               </div>
             ))}
@@ -250,7 +245,7 @@ const Home = ({ addToCart }) => {
         </div>
       </section>
 
-      {/* All Products Section - 20 products, 4 in a row */}
+      {/* Featured Products Section */}
       <section className="all-products-section">
         <div className="container">
           <div className="section-header">
