@@ -1,304 +1,171 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useParams, Link } from 'react-router-dom';
 import './CategoryPage.css';
+import ProductCard from '../components/ProductCard';
 
-// Components
-import ProductCard from '../components/ProductCard/ProductCard';
-import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
-import Pagination from '../components/Pagination/Pagination';
-import FilterSidebar from '../components/FilterSidebar/FilterSidebar';
-import Breadcrumb from '../components/Breadcrumb/Breadcrumb';
-
-const CategoryPage = () => {
-  const { categoryId, categoryName } = useParams();
-  const navigate = useNavigate();
+const CategoryPage = ({ category: propCategory, addToCart }) => {
+  const { categorySlug } = useParams();
+  const [activeSubcategory, setActiveSubcategory] = useState('All');
   
-  // State management
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  
-  // Pagination state
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalProducts, setTotalProducts] = useState(0);
-  const productsPerPage = 12;
-  
-  // Filter state
-  const [filters, setFilters] = useState({
-    minPrice: 0,
-    maxPrice: 1000,
-    sortBy: 'featured',
-    inStockOnly: false,
-    selectedBrands: [],
-    selectedRatings: []
-  });
-  
-  // Category info state
-  const [categoryInfo, setCategoryInfo] = useState({
-    name: '',
-    description: '',
-    image: ''
-  });
+  // Get category from props or URL - prioritize props
+  const categoryKey = propCategory || categorySlug;
 
-  // Fetch category data
-  useEffect(() => {
-    const fetchCategoryData = async () => {
-      setLoading(true);
-      try {
-        // Fetch category details
-        const categoryResponse = await axios.get(
-          `/api/categories/${categoryId || categoryName}`
-        );
-        setCategoryInfo(categoryResponse.data);
-        
-        // Fetch products with filters
-        await fetchProducts();
-      } catch (err) {
-        setError('Failed to load category data');
-        console.error('Error fetching category:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCategoryData();
-  }, [categoryId, categoryName]);
-
-  // Fetch products with current filters
-  const fetchProducts = async () => {
-    try {
-      const params = {
-        page: currentPage,
-        limit: productsPerPage,
-        ...filters,
-        category: categoryId || categoryName
-      };
-
-      const response = await axios.get('/api/products', { params });
-      
-      setProducts(response.data.products);
-      setTotalProducts(response.data.totalCount);
-      setTotalPages(Math.ceil(response.data.totalCount / productsPerPage));
-    } catch (err) {
-      setError('Failed to load products');
-      console.error('Error fetching products:', err);
+  // Category data mapping
+  const categoryData = {
+    'care': {
+      title: 'CARE',
+      description: 'Natural, chemical-free personal care products for your well-being',
+      heroImage: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80',
+      color: '#75B06F',
+      subcategories: ['Oral Care', 'Hair Care', 'Face Care', 'Body Care'],
+      slug: 'care'
+    },
+    'home-living': {
+      title: 'HOME & LIVING',
+      description: 'Transform your home with eco-friendly essentials',
+      heroImage: 'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80',
+      color: '#36656B',
+      subcategories: ['Kitchenware', 'Tableware', 'Gardening Tools', 'Candles', 'Bathroom Essentials', 'Yoga Essentials'],
+      slug: 'home-living'
+    },
+    'fashion': {
+      title: 'FASHION',
+      description: 'Ethical fashion that looks good and does good',
+      heroImage: 'https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80',
+      color: '#DAD887',
+      subcategories: ['Dresses', 'Tops', 'Bottoms', 'Ethnic Wears', 'Accessories'],
+      slug: 'fashion'
+    },
+    'food': {
+      title: 'FOOD',
+      description: 'Organic, sustainable food for healthy living',
+      heroImage: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80',
+      color: '#F0F8A4',
+      subcategories: ['Tea', 'Coffee', 'Beverages', 'Healthy Foods'],
+      slug: 'food'
     }
   };
 
-  // Handle filter changes
-  const handleFilterChange = (newFilters) => {
-    setFilters(newFilters);
-    setCurrentPage(1); // Reset to first page when filters change
+  // Get current category or default to care
+  const currentCategory = categoryData[categoryKey] || categoryData.care;
+
+  // Product data for each category
+  const productsByCategory = {
+    'care': [
+      { id: 1, name: 'Bamboo Toothbrush Set', price: 12.99, ecoPoints: 65, image: 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.7, subcategory: 'Oral Care' },
+      { id: 2, name: 'Natural Shampoo Bar', price: 11.99, ecoPoints: 60, image: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.6, subcategory: 'Hair Care' },
+      { id: 3, name: 'Organic Face Cream', price: 24.99, ecoPoints: 125, image: 'https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.8, subcategory: 'Face Care' },
+      { id: 4, name: 'Herbal Body Oil', price: 19.99, ecoPoints: 100, image: 'https://images.unsplash.com/photo-1592417817098-8fd3d9eb14a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.5, subcategory: 'Body Care' },
+    ],
+    'home-living': [
+      { id: 5, name: 'Bamboo Utensil Set', price: 24.99, ecoPoints: 125, image: 'https://images.unsplash.com/photo-1585238342070-61e1e2b6c8d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.8, subcategory: 'Kitchenware' },
+      { id: 6, name: 'Ceramic Dinner Set', price: 89.99, ecoPoints: 450, image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.9, subcategory: 'Tableware' },
+    ],
+    'fashion': [
+      { id: 7, name: 'Organic Cotton Dress', price: 49.99, ecoPoints: 250, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.7, subcategory: 'Dresses' },
+      { id: 8, name: 'Sustainable T-shirt', price: 29.99, ecoPoints: 150, image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.5, subcategory: 'Tops' },
+    ],
+    'food': [
+      { id: 9, name: 'Organic Green Tea', price: 14.99, ecoPoints: 75, image: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.7, subcategory: 'Tea' },
+      { id: 10, name: 'Fair Trade Coffee', price: 18.99, ecoPoints: 95, image: 'https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.8, subcategory: 'Coffee' },
+    ]
   };
 
-  // Handle page change
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const products = productsByCategory[categoryKey] || productsByCategory.care;
+  const filteredProducts = activeSubcategory === 'All' 
+    ? products 
+    : products.filter(p => p.subcategory === activeSubcategory);
+
+  const handleAddToCart = (product) => {
+    addToCart(product);
+    alert(`✓ ${product.name} added to cart! +${product.ecoPoints} eco points earned!`);
   };
-
-  // Handle sort change
-  const handleSortChange = (e) => {
-    setFilters(prev => ({ ...prev, sortBy: e.target.value }));
-  };
-
-  // Clear all filters
-  const clearAllFilters = () => {
-    setFilters({
-      minPrice: 0,
-      maxPrice: 1000,
-      sortBy: 'featured',
-      inStockOnly: false,
-      selectedBrands: [],
-      selectedRatings: []
-    });
-    setCurrentPage(1);
-  };
-
-  // Handle product click
-  const handleProductClick = (productId) => {
-    navigate(`/product/${productId}`);
-  };
-
-  // Loading state
-  if (loading) {
-    return (
-      <div className="category-page loading">
-        <LoadingSpinner />
-        <p>Loading category...</p>
-      </div>
-    );
-  }
-
-  // Error state
-  if (error) {
-    return (
-      <div className="category-page error">
-        <h2>Error</h2>
-        <p>{error}</p>
-        <button 
-          onClick={() => window.location.reload()}
-          className="retry-button"
-        >
-          Retry
-        </button>
-      </div>
-    );
-  }
-
-  // No products found
-  if (products.length === 0 && !loading) {
-    return (
-      <div className="category-page empty">
-        <h2>No Products Found</h2>
-        <p>No products available in this category with the current filters.</p>
-        <button 
-          onClick={clearAllFilters}
-          className="clear-filters-button"
-        >
-          Clear All Filters
-        </button>
-      </div>
-    );
-  }
 
   return (
     <div className="category-page">
-      {/* Breadcrumb Navigation */}
-      <Breadcrumb 
-        items={[
-          { label: 'Home', path: '/' },
-          { label: 'Categories', path: '/categories' },
-          { label: categoryInfo.name, path: null }
-        ]}
-      />
-
-      {/* Category Header */}
-      <header className="category-header">
-        <div className="category-header-content">
-          <h1 className="category-title">{categoryInfo.name}</h1>
-          {categoryInfo.description && (
-            <p className="category-description">{categoryInfo.description}</p>
-          )}
-          <div className="category-meta">
-            <span className="product-count">
-              {totalProducts} {totalProducts === 1 ? 'Product' : 'Products'}
-            </span>
+      {/* Category Hero */}
+      <section className="static-category-hero" style={{ 
+        backgroundColor: currentCategory.color
+      }}>
+        <div className="container">
+          <div className="static-hero-content">
+            <h1>{currentCategory.title}</h1>
+            <p>{currentCategory.description}</p>
+            <div className="category-stats">
+              <div className="stat">
+                <span className="number">{products.length}</span>
+                <span className="label">Products</span>
+              </div>
+              <div className="stat">
+                <span className="number">4.7</span>
+                <span className="label">Avg Rating</span>
+              </div>
+              <div className="stat">
+                <span className="number">{currentCategory.subcategories.length}</span>
+                <span className="label">Collections</span>
+              </div>
+            </div>
+          </div>
+          <div className="hero-image-container">
+            <img src={currentCategory.heroImage} alt={currentCategory.title} className="hero-image" />
           </div>
         </div>
-        
-        {categoryInfo.image && (
-          <div className="category-hero">
-            <img 
-              src={categoryInfo.image} 
-              alt={categoryInfo.name}
-              className="category-hero-image"
-            />
-          </div>
-        )}
-      </header>
+      </section>
 
-      {/* Main Content Area */}
-      <div className="category-content">
-        {/* Sidebar Filters */}
-        <aside className="category-sidebar">
-          <FilterSidebar
-            filters={filters}
-            onFilterChange={handleFilterChange}
-            onClearFilters={clearAllFilters}
-          />
-        </aside>
-
-        {/* Products Section */}
-        <main className="category-main">
-          {/* Toolbar with sort options */}
-          <div className="products-toolbar">
-            <div className="toolbar-left">
-              <h3>Products</h3>
-              <span className="showing-products">
-                Showing {(currentPage - 1) * productsPerPage + 1} - 
-                {Math.min(currentPage * productsPerPage, totalProducts)} of {totalProducts}
-              </span>
-            </div>
-            
-            <div className="toolbar-right">
-              <div className="sort-container">
-                <label htmlFor="sort-select">Sort by:</label>
-                <select
-                  id="sort-select"
-                  value={filters.sortBy}
-                  onChange={handleSortChange}
-                  className="sort-select"
-                >
-                  <option value="featured">Featured</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                  <option value="newest">Newest Arrivals</option>
-                  <option value="rating">Highest Rated</option>
-                  <option value="name-asc">Name: A to Z</option>
-                  <option value="name-desc">Name: Z to A</option>
-                </select>
-              </div>
-              
-              <button 
-                onClick={() => setCurrentPage(1)}
-                className="refresh-button"
-                title="Refresh products"
+      {/* Subcategory Navigation */}
+      <section className="subcategory-nav">
+        <div className="container">
+          <div className="subcategory-tabs">
+            <button 
+              className={`subcategory-tab ${activeSubcategory === 'All' ? 'active' : ''}`}
+              onClick={() => setActiveSubcategory('All')}
+            >
+              All Products
+            </button>
+            {currentCategory.subcategories.map((subcat) => (
+              <button
+                key={subcat}
+                className={`subcategory-tab ${activeSubcategory === subcat ? 'active' : ''}`}
+                onClick={() => setActiveSubcategory(subcat)}
               >
-                ↻
+                {subcat}
               </button>
-            </div>
-          </div>
-
-          {/* Products Grid */}
-          <div className="products-grid">
-            {products.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onClick={() => handleProductClick(product.id)}
-                className="product-card-item"
-              />
             ))}
           </div>
+        </div>
+      </section>
 
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="products-pagination">
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-              />
+      {/* Products Grid */}
+      <section className="category-products">
+        <div className="container">
+          <div className="products-header">
+            <h2>{activeSubcategory === 'All' ? 'All Products' : activeSubcategory}</h2>
+            <p className="products-count">{filteredProducts.length} products found</p>
+          </div>
+          
+          {filteredProducts.length > 0 ? (
+            <div className="products-grid-four">
+              {filteredProducts.map((product) => (
+                <ProductCard 
+                  key={product.id} 
+                  product={product} 
+                  onAddToCart={() => handleAddToCart(product)}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="no-products">
+              <div className="no-products-icon">🛒</div>
+              <h3>Coming Soon! More products will be added.</h3>
+              <Link to="/" className="back-to-home">
+                <i className="fas fa-arrow-left"></i> Back to Home
+              </Link>
             </div>
           )}
-
-          {/* Category Description (optional bottom section) */}
-          {categoryInfo.longDescription && (
-            <div className="category-long-description">
-              <h3>About {categoryInfo.name}</h3>
-              <div dangerouslySetInnerHTML={{ __html: categoryInfo.longDescription }} />
-            </div>
-          )}
-        </main>
-      </div>
-
-      {/* Mobile Filter Button (hidden on desktop) */}
-      <button className="mobile-filter-button">
-        <span>☰ Filters</span>
-        <span className="filter-count">
-          {Object.values(filters).filter(f => Array.isArray(f) ? f.length > 0 : f).length}
-        </span>
-      </button>
+        </div>
+      </section>
     </div>
   );
-};
-
-// PropTypes for type checking (if using PropTypes)
-CategoryPage.propTypes = {
-  // Add prop types if this component receives props
 };
 
 export default CategoryPage;
