@@ -54,33 +54,33 @@ const Home = ({ addToCart }) => {
 
   // Professional category data
   const shopCategories = [
-    { 
-      id: 1, 
-      name: 'Care', 
+    {
+      id: 1,
+      name: 'Care',
       subcategories: ['Oral Care', 'Hair Care', 'Face Care', 'Body Care'],
       productCount: 45,
       color: '#75B06F',
       image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
     },
-    { 
-      id: 2, 
-      name: 'Home & Living', 
+    {
+      id: 2,
+      name: 'Home & Living',
       subcategories: ['Kitchenware', 'Tableware', 'Gardening Tools', 'Candles'],
       productCount: 68,
       color: '#36656B',
       image: 'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
     },
-    { 
-      id: 3, 
-      name: 'Fashion', 
+    {
+      id: 3,
+      name: 'Fashion',
       subcategories: ['Dresses', 'Tops', 'Bottoms', 'Accessories'],
       productCount: 52,
       color: '#DAD887',
       image: 'https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
     },
-    { 
-      id: 4, 
-      name: 'Food', 
+    {
+      id: 4,
+      name: 'Food',
       subcategories: ['Tea', 'Coffee', 'Beverages', 'Healthy Foods'],
       productCount: 38,
       color: '#F0F8A4',
@@ -156,10 +156,10 @@ const Home = ({ addToCart }) => {
       <section className="auto-slider-hero">
         <div className="slides-container">
           {heroSlides.map((slide, index) => (
-            <div 
+            <div
               key={slide.id}
               className={`slide ${index === activeSlide ? 'active' : ''}`}
-              style={{ 
+              style={{
                 backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${slide.image})`,
                 backgroundColor: slide.color
               }}
@@ -201,11 +201,11 @@ const Home = ({ addToCart }) => {
             <h2 className="section-title">Shop by Category</h2>
             <p className="section-subtitle">Discover our sustainable collections</p>
           </div>
-          
+
           <div className="category-cards-four">
             {shopCategories.map((category) => (
-              <CategoryCard 
-                key={category.id} 
+              <CategoryCard
+                key={category.id}
                 category={category}
               />
             ))}
@@ -220,7 +220,7 @@ const Home = ({ addToCart }) => {
             <h2 className="section-title">Sustainable Stories</h2>
             <p className="section-subtitle">Experience our eco-friendly journey</p>
           </div>
-          
+
           <div className="video-collage-grid">
             {videoData.map((video, index) => (
               <div key={video.id} className={`video-collage-item ${video.size}`}>
@@ -228,6 +228,7 @@ const Home = ({ addToCart }) => {
                   <video
                     ref={el => videoRefs.current[index] = el}
                     src={video.videoUrl}
+                    autoPlay
                     loop
                     muted
                     playsInline
@@ -252,17 +253,17 @@ const Home = ({ addToCart }) => {
             <h2 className="section-title">Featured Products</h2>
             <p className="section-subtitle">Our best-selling sustainable items</p>
           </div>
-          
+
           <div className="products-grid-four">
             {allProducts.map((product) => (
-              <ProductCard 
-                key={product.id} 
-                product={product} 
+              <ProductCard
+                key={product.id}
+                product={product}
                 onAddToCart={() => handleAddToCart(product)}
               />
             ))}
           </div>
-          
+
           <div className="view-all-container">
             <Link to="/products" className="view-all-btn-small">
               View All Products <i className="fas fa-arrow-right"></i>
