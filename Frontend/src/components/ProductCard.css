@@ -121,3 +121,42 @@
   background-color: var(--accent-color);
   transform: translateY(-2px);
 }
+
+@media (max-width: 768px) {
+  .product-image {
+    height: 160px;
+  }
+
+  .product-content {
+    padding: 15px;
+  }
+
+  .product-content h4 {
+    font-size: 0.95rem;
+    min-height: 35px;
+  }
+
+  .product-price {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+  }
+
+  .add-to-cart-btn {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-image {
+    height: 140px;
+  }
+
+  .product-content {
+    padding: 12px;
+  }
+
+  .product-content h4 {
+    font-size: 0.9rem;
+  }
+}

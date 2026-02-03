@@ -94,3 +94,37 @@
   gap: 12px;
   color: var(--primary-green);
 }
+
+@media (max-width: 768px) {
+  .category-image {
+    height: 150px;
+  }
+
+  .category-content {
+    padding: 15px;
+  }
+
+  .category-content h3 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+  }
+
+  .subcategory-tag {
+    padding: 4px 10px;
+    font-size: 0.75rem;
+  }
+
+  .category-footer {
+    padding-top: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-image {
+    height: 130px;
+  }
+
+  .category-content {
+    padding: 12px;
+  }
+}

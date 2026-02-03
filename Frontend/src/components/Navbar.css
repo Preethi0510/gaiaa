@@ -213,7 +213,7 @@
   .menu-btn {
     display: flex;
   }
-  
+
   .nav-center {
     position: fixed;
     top: 100px;
@@ -230,28 +230,72 @@
     transition: all 0.3s ease;
     z-index: 999;
   }
-  
+
+  .dropdown-content {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    box-shadow: none;
+    padding: 0;
+    width: 100%;
+    text-align: center;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .dropdown:hover .dropdown-content {
+    max-height: 500px;
+  }
+
   .nav-center.active {
     transform: translateY(0);
     opacity: 1;
     visibility: visible;
   }
-  
+
   .search-box input {
     width: 150px;
   }
-  
+
   .nav-right {
     gap: 15px;
   }
 }
 
 @media (max-width: 480px) {
-  .logo h1 {
-    font-size: 1.8rem;
+  .navbar {
+    padding: 10px 0;
   }
-  
+
+  .logo h1 {
+    font-size: 1.6rem;
+  }
+
   .search-box {
+    display: none;
+  }
+
+  .nav-right {
+    gap: 12px;
+  }
+
+  .auth-link {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 350px) {
+  .logo h1 {
+    font-size: 1.4rem;
+  }
+
+  .nav-right {
+    gap: 8px;
+  }
+
+  .auth-link {
     display: none;
   }
 }

@@ -582,10 +582,9 @@
   }
 
   .slide-description {
-    font-size: 0.95rem;
-    /* Adjusted */
-    margin-bottom: 25px;
-    /* Adjusted */
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    max-width: 90%;
   }
 
   .shop-now-btn-small {
@@ -620,7 +619,7 @@
   .products-grid-four {
     grid-template-columns: 1fr;
     gap: 20px;
-    /* Adjusted */
+    padding: 0 10px;
   }
 
   .section-title {

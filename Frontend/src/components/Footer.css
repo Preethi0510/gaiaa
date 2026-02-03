@@ -14,7 +14,9 @@
   padding: 0 20px;
 }
 
-.footer-section h3, .footer-section h4, .footer-section h5 {
+.footer-section h3,
+.footer-section h4,
+.footer-section h5 {
   margin-bottom: 20px;
   color: white;
 }
@@ -159,6 +161,29 @@
 }
 
 @media (max-width: 768px) {
+  .footer {
+    padding-top: 30px;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    text-align: center;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+
+  .contact-info p {
+    justify-content: center;
+  }
+
+  .newsletter-input {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
   .footer-bottom {
     flex-direction: column;
     gap: 15px;

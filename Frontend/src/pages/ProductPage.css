@@ -493,7 +493,7 @@
     grid-template-columns: 1fr;
     gap: 30px;
   }
-  
+
   .main-image {
     height: 400px;
   }
@@ -503,14 +503,48 @@
   .product-actions {
     flex-direction: column;
   }
-  
+
   .detail-tabs {
     flex-wrap: wrap;
   }
-  
+
   .tab {
     flex: 1;
     min-width: 120px;
     text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-page {
+    padding: 20px 0;
+  }
+
+  .main-image {
+    height: 300px;
+  }
+
+  .product-title {
+    font-size: 1.6rem;
+  }
+
+  .current-price {
+    font-size: 1.5rem;
+  }
+
+  .variant-option {
+    min-width: 80px;
+    padding: 8px 15px;
+    font-size: 0.9rem;
+  }
+
+  .tab {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    min-width: 100px;
+  }
+
+  .tab-content {
+    padding: 15px 5px;
   }
 }
