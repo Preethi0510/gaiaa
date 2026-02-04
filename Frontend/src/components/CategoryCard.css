@@ -42,9 +42,10 @@
 }
 
 .category-content h3 {
+  font-family: 'Playfair Display', serif;
   font-size: 1.4rem;
   margin-bottom: 16px;
-  color: var(--dark-teal);
+  color: var(--primary-green);
   font-weight: 700;
   line-height: 1.3;
 }

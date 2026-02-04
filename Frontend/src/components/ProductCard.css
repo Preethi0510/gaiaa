@@ -55,6 +55,7 @@
 }
 
 .product-content h4 {
+  font-family: 'Playfair Display', serif;
   font-size: 1.1rem;
   margin-bottom: 10px;
   color: var(--text-dark);
@@ -90,11 +91,11 @@
 .add-to-cart-btn {
   margin-top: auto;
   padding: 12px;
-  background-color: var(--primary-color);
+  background-color: var(--primary-green);
   color: white;
   border: none;
-  border-radius: 8px;
-  font-weight: 600;
+  border-radius: var(--border-radius);
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;

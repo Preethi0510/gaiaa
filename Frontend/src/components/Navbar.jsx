@@ -39,7 +39,7 @@ const Navbar = ({ cartCount }) => {
             <span></span>
             <span></span>
           </button>
-          <Link to="/" className="logo">
+          <Link to="/" className="logo" onClick={() => setIsMenuOpen(false)}>
             <h1>Gaiaa</h1>
           </Link>
         </div>
@@ -47,14 +47,16 @@ const Navbar = ({ cartCount }) => {
         <div className={`nav-center ${isMenuOpen ? 'active' : ''}`}>
           {categories.map((category) => (
             <div key={category.name} className="dropdown">
-              <Link to={`/category/${category.name.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`} 
-                    className="nav-link">
+              <Link to={`/category/${category.name.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`}
+                className="nav-link"
+                onClick={() => setIsMenuOpen(false)}>
                 {category.name}
               </Link>
               <div className="dropdown-content">
                 {category.subcategories.map((sub) => (
-                  <Link key={sub} 
-                        to={`/category/${category.name.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}/${sub.toLowerCase().replace(/ /g, '-')}`}>
+                  <Link key={sub}
+                    to={`/category/${category.name.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}/${sub.toLowerCase().replace(/ /g, '-')}`}
+                    onClick={() => setIsMenuOpen(false)}>
                     {sub}
                   </Link>
                 ))}
@@ -75,8 +77,8 @@ const Navbar = ({ cartCount }) => {
               <i className="fas fa-search"></i>
             </button>
           </div>
-          <Link to="/login" className="auth-link">Login</Link>
-          <Link to="/signup" className="auth-link">Sign Up</Link>
+          <Link to="/login" className="auth-link" onClick={() => setIsMenuOpen(false)}>Login</Link>
+          <Link to="/signup" className="auth-link" onClick={() => setIsMenuOpen(false)}>Sign Up</Link>
           <Link to="/cart" className="cart-icon">
             <i className="fas fa-shopping-bag"></i>
             {cartCount > 0 && <span className="cart-count">{cartCount}</span>}

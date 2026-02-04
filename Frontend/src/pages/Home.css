@@ -1,20 +1,17 @@
 /* Home Page Styles - Professional Sizing */
 .home-page {
   padding-top: 0;
+  margin-top: 0;
 }
 
 /* Auto-Sliding Hero Slider - Reduced Size */
 .auto-slider-hero {
   position: relative;
-  height: 65vh;
-  /* Reduced from 85vh */
-  min-height: 500px;
-  /* Reduced from 700px */
-  border-radius: 0 0 20px 20px;
-  /* Reduced radius */
+  height: 60vh;
+  min-height: 450px;
   overflow: hidden;
-  margin-bottom: 30px;
-  /* Reduced margin */
+  margin-bottom: 60px;
+  margin-top: 0;
 }
 
 /* Slides Container - Critical for slider functionality */
@@ -64,14 +61,13 @@
 }
 
 .slide-title {
+  font-family: 'Playfair Display', serif;
   font-size: 3.5rem;
-  /* Reduced from 5rem */
-  font-weight: 800;
+  font-weight: 700;
   color: white;
   margin-bottom: 15px;
-  /* Reduced */
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-transform: none;
   overflow: hidden;
   line-height: 1.1;
 }
@@ -110,7 +106,7 @@
   color: var(--dark-teal);
   padding: 12px 35px;
   /* Reduced padding */
-  border-radius: 50px;
+  border-radius: 8px;
   font-weight: 700;
   font-size: 0.95rem;
   /* Reduced size */
@@ -122,6 +118,13 @@
   transform: translateY(15px);
   animation: fadeInUp 0.8s ease 1.4s forwards;
   letter-spacing: 0.5px;
+}
+
+.shop-now-btn-small:hover {
+  background-color: var(--primary-green);
+  color: white;
+  border-color: var(--primary-green);
+  transform: translateY(-2px);
 }
 
 /* Slide Navigation Dots - Position adjusted */
@@ -234,8 +237,7 @@
 /* Section Header - More compact */
 .section-header {
   text-align: center;
-  margin-bottom: 40px;
-  /* Reduced from 60px */
+  margin-bottom: 60px;
 }
 
 .section-title {
@@ -280,9 +282,8 @@
 
 /* Shop by Category Section - More compact */
 .shop-by-category {
-  padding: 70px 0;
-  /* Reduced from 100px */
-  background: linear-gradient(180deg, #ffffff 0%, #f9f9f7 100%);
+  padding: 100px 0;
+  background-color: var(--light-bg);
 }
 
 .category-cards-four {
@@ -433,9 +434,17 @@
 
 .add-to-cart-btn-small {
   padding: 9px 15px;
-  /* Reduced */
   font-size: 0.85rem;
-  /* Reduced */
+  border-radius: 6px;
+  background-color: var(--primary-green);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.add-to-cart-btn-small:hover {
+  background-color: var(--dark-teal);
 }
 
 /* View All Button */
@@ -446,9 +455,18 @@
 
 .view-all-btn-small {
   padding: 12px 30px;
-  /* Reduced */
   font-size: 0.9rem;
-  /* Reduced */
+  border-radius: 8px;
+  background-color: var(--primary-green);
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s;
+}
+
+.view-all-btn-small:hover {
+  background-color: var(--dark-teal);
+  transform: translateY(-2px);
 }
 
 /* Responsive Design Updates */

@@ -6,7 +6,7 @@ import ProductCard from '../components/ProductCard';
 const CategoryPage = ({ category: propCategory, addToCart }) => {
   const { categorySlug } = useParams();
   const [activeSubcategory, setActiveSubcategory] = useState('All');
-  
+
   // Get category from props or URL - prioritize props
   const categoryKey = propCategory || categorySlug;
 
@@ -72,8 +72,8 @@ const CategoryPage = ({ category: propCategory, addToCart }) => {
   };
 
   const products = productsByCategory[categoryKey] || productsByCategory.care;
-  const filteredProducts = activeSubcategory === 'All' 
-    ? products 
+  const filteredProducts = activeSubcategory === 'All'
+    ? products
     : products.filter(p => p.subcategory === activeSubcategory);
 
   const handleAddToCart = (product) => {
@@ -84,30 +84,13 @@ const CategoryPage = ({ category: propCategory, addToCart }) => {
   return (
     <div className="category-page">
       {/* Category Hero */}
-      <section className="static-category-hero" style={{ 
-        backgroundColor: currentCategory.color
+      <section className="static-category-hero" style={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${currentCategory.heroImage})`
       }}>
         <div className="container">
           <div className="static-hero-content">
             <h1>{currentCategory.title}</h1>
             <p>{currentCategory.description}</p>
-            <div className="category-stats">
-              <div className="stat">
-                <span className="number">{products.length}</span>
-                <span className="label">Products</span>
-              </div>
-              <div className="stat">
-                <span className="number">4.7</span>
-                <span className="label">Avg Rating</span>
-              </div>
-              <div className="stat">
-                <span className="number">{currentCategory.subcategories.length}</span>
-                <span className="label">Collections</span>
-              </div>
-            </div>
-          </div>
-          <div className="hero-image-container">
-            <img src={currentCategory.heroImage} alt={currentCategory.title} className="hero-image" />
           </div>
         </div>
       </section>
@@ -116,7 +99,7 @@ const CategoryPage = ({ category: propCategory, addToCart }) => {
       <section className="subcategory-nav">
         <div className="container">
           <div className="subcategory-tabs">
-            <button 
+            <button
               className={`subcategory-tab ${activeSubcategory === 'All' ? 'active' : ''}`}
               onClick={() => setActiveSubcategory('All')}
             >
@@ -142,13 +125,13 @@ const CategoryPage = ({ category: propCategory, addToCart }) => {
             <h2>{activeSubcategory === 'All' ? 'All Products' : activeSubcategory}</h2>
             <p className="products-count">{filteredProducts.length} products found</p>
           </div>
-          
+
           {filteredProducts.length > 0 ? (
             <div className="products-grid-four">
               {filteredProducts.map((product) => (
-                <ProductCard 
-                  key={product.id} 
-                  product={product} 
+                <ProductCard
+                  key={product.id}
+                  product={product}
                   onAddToCart={() => handleAddToCart(product)}
                 />
               ))}

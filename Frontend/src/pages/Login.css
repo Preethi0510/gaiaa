@@ -134,7 +134,7 @@
 }
 
 .forgot-password:hover {
-  text-decoration: underline;
+  color: var(--dark-teal);
 }
 
 .login-btn {
@@ -214,7 +214,7 @@
 }
 
 .signup-link a:hover {
-  text-decoration: underline;
+  color: var(--dark-teal);
 }
 
 @media (max-width: 768px) {
@@ -222,28 +222,29 @@
     grid-template-columns: 1fr;
     gap: 30px;
   }
-  
+
   .login-left {
     text-align: center;
   }
-  
+
   .social-login {
     flex-direction: column;
   }
 }
+
 @media (max-width: 480px) {
   .login-right {
     padding: 30px 20px;
   }
-  
+
   .login-left h1 {
     font-size: 2rem;
   }
-  
+
   .login-card h2 {
     font-size: 1.5rem;
   }
-  
+
   .hero-image {
     margin-left: auto;
     margin-right: auto;

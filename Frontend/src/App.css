@@ -1,14 +1,20 @@
 :root {
-  --primary-green: #75B06F;
-  --dark-teal: #36656B;
-  --light-yellow: #DAD887;
-  --pale-yellow: #F0F8A4;
-  --light-bg: #F9F9F7;
-  --text-dark: #2C3E50;
-  --text-light: #5D6D7E;
+  --primary-green: #4A5D4E;
+  /* Sage/Forest Green */
+  --dark-teal: #2F3E33;
+  --secondary-color: #D6CBB3;
+  /* Warm Sand/Beige */
+  --light-yellow: #E8E1D1;
+  --pale-yellow: #F4F1EA;
+  --light-bg: #FDFBF7;
+  /* Paper/Off-white */
+  --text-dark: #2D2D2D;
+  /* Soft Charcoal */
+  --text-light: #6B6B6B;
   --white: #FFFFFF;
-  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
   --gradient-green: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-teal) 100%);
+  --border-radius: 12px;
 }
 
 * {
@@ -42,17 +48,17 @@ body {
   }
 }
 
-/* Oval Buttons */
+/* Rounded Buttons (previously oval-btn) */
 .oval-btn {
   background-color: var(--primary-green);
   color: white;
   border: none;
-  padding: 14px 32px;
-  border-radius: 50px;
+  padding: 12px 28px;
+  border-radius: var(--border-radius);
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 16px;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
   z-index: 1;
@@ -77,8 +83,8 @@ body {
 
 .oval-btn:hover {
   background-color: var(--dark-teal);
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(54, 101, 107, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(54, 101, 107, 0.2);
 }
 
 .oval-btn-secondary {

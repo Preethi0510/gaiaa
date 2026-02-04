@@ -27,8 +27,8 @@
 .product-main {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 50px;
-  margin-bottom: 60px;
+  gap: 60px;
+  margin-bottom: 80px;
 }
 
 /* Product Images */
@@ -83,9 +83,11 @@
 
 /* Product Info */
 .product-title {
-  font-size: 2.2rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
   color: var(--text-dark);
   margin-bottom: 15px;
+  font-weight: 700;
 }
 
 .product-rating-review {
@@ -252,6 +254,12 @@
   gap: 10px;
   padding: 15px;
   font-size: 1.1rem;
+  background-color: var(--primary-green);
+  border-radius: var(--border-radius);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
 }
 
 .wishlist-btn {

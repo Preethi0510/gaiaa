@@ -1,7 +1,7 @@
 .biology-fact-simple {
   background-color: var(--dark-teal);
   color: white;
-  padding: 12px 0;
+  padding: 6px 0;
   position: sticky;
   top: 0;
   z-index: 1001;
@@ -30,7 +30,7 @@
 
 .fact-text p {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   font-weight: 500;
   opacity: 0.95;
   animation: fadeSlide 0.5s ease;
@@ -41,6 +41,7 @@
     opacity: 0;
     transform: translateY(5px);
   }
+
   to {
     opacity: 0.95;
     transform: translateY(0);
@@ -52,7 +53,7 @@
     flex-direction: column;
     gap: 8px;
   }
-  
+
   .fact-text p {
     font-size: 0.85rem;
   }
