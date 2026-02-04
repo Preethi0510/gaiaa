@@ -108,6 +108,42 @@
   transition: border-color 0.3s;
 }
 
+.password-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-input-wrapper input {
+  padding-right: 45px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.error-input {
+  border-color: #ff4d4f !important;
+}
+
+.error-message {
+  color: #ff4d4f;
+  font-size: 0.85rem;
+  margin-top: 5px;
+  display: block;
+}
+
 .form-group input:focus {
   outline: none;
   border-color: var(--primary-color);
@@ -169,6 +205,8 @@
   padding: 0 15px;
   color: var(--text-light);
   font-size: 0.9rem;
+  position: relative;
+  z-index: 5;
 }
 
 .social-signup {

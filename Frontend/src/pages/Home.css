@@ -10,7 +10,7 @@
   height: 60vh;
   min-height: 450px;
   overflow: hidden;
-  margin-bottom: 60px;
+  margin-bottom: 30px;
   margin-top: 0;
 }
 
@@ -237,7 +237,7 @@
 /* Section Header - More compact */
 .section-header {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 }
 
 .section-title {
@@ -282,7 +282,7 @@
 
 /* Shop by Category Section - More compact */
 .shop-by-category {
-  padding: 100px 0;
+  padding: 30px 0;
   background-color: var(--light-bg);
 }
 
@@ -334,7 +334,7 @@
 
 /* Video Collage Section - More compact */
 .video-collage-section {
-  padding: 70px 0;
+  padding: 30px 0;
   /* Reduced from 100px */
 }
 
@@ -396,7 +396,7 @@
 
 /* Featured Products Section - More compact */
 .all-products-section {
-  padding: 70px 0;
+  padding: 30px 0;
   /* Reduced */
 }
 

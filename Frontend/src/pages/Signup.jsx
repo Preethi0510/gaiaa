@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Signup.css';
 
-const Signup = () => {
+const Signup = ({ showToast }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -10,11 +10,13 @@ const Signup = () => {
     confirmPassword: '',
     newsletter: true
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const [emailError, setEmailError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords don't match!");
+      showToast("Passwords don't match!", "error");
       return;
     }
     // Handle signup logic here
@@ -23,6 +25,15 @@ const Signup = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+
+    if (name === 'email') {
+      if (/[A-Z]/.test(value)) {
+        setEmailError('Email must be in lowercase only');
+      } else {
+        setEmailError('');
+      }
+    }
+
     setFormData({
       ...formData,
       [name]: type === 'checkbox' ? checked : value
@@ -36,7 +47,7 @@ const Signup = () => {
           <div className="signup-left">
             <h1>Join Gaiaa</h1>
             <p className="subtitle">Start your sustainable living journey today</p>
-            
+
             <div className="signup-benefits">
               <div className="benefit-card">
                 <div className="benefit-icon">
@@ -45,7 +56,7 @@ const Signup = () => {
                 <h3>Welcome Bonus</h3>
                 <p>Get 100 Eco Points + 20% off on first purchase</p>
               </div>
-              
+
               <div className="benefit-card">
                 <div className="benefit-icon">
                   <i className="fas fa-chart-line"></i>
@@ -53,7 +64,7 @@ const Signup = () => {
                 <h3>Track Impact</h3>
                 <p>Monitor your carbon footprint reduction</p>
               </div>
-              
+
               <div className="benefit-card">
                 <div className="benefit-icon">
                   <i className="fas fa-users"></i>
@@ -63,11 +74,11 @@ const Signup = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="signup-right">
             <div className="signup-card">
               <h2>Create Account</h2>
-              
+
               <form onSubmit={handleSubmit} className="signup-form">
                 <div className="form-group">
                   <label htmlFor="name">Full Name</label>
@@ -81,7 +92,7 @@ const Signup = () => {
                     required
                   />
                 </div>
-                
+
                 <div className="form-group">
                   <label htmlFor="email">Email Address</label>
                   <input
@@ -91,38 +102,58 @@ const Signup = () => {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="Enter your email"
+                    className={emailError ? 'error-input' : ''}
                     required
                   />
+                  {emailError && <span className="error-message">{emailError}</span>}
                 </div>
-                
+
                 <div className="form-row">
                   <div className="form-group">
                     <label htmlFor="password">Password</label>
-                    <input
-                      type="password"
-                      id="password"
-                      name="password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      placeholder="Create password"
-                      required
-                    />
+                    <div className="password-input-wrapper">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        id="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        placeholder="Create password"
+                        required
+                      />
+                      <button
+                        type="button"
+                        className="password-toggle"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                      </button>
+                    </div>
                   </div>
-                  
+
                   <div className="form-group">
                     <label htmlFor="confirmPassword">Confirm Password</label>
-                    <input
-                      type="password"
-                      id="confirmPassword"
-                      name="confirmPassword"
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
-                      placeholder="Confirm password"
-                      required
-                    />
+                    <div className="password-input-wrapper">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
+                        placeholder="Confirm password"
+                        required
+                      />
+                      <button
+                        type="button"
+                        className="password-toggle"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                      </button>
+                    </div>
                   </div>
                 </div>
-                
+
                 <div className="checkbox-group">
                   <label className="checkbox-label">
                     <input
@@ -132,7 +163,7 @@ const Signup = () => {
                     />
                     <span>I agree to the <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy Policy</a></span>
                   </label>
-                  
+
                   <label className="checkbox-label">
                     <input
                       type="checkbox"
@@ -143,16 +174,16 @@ const Signup = () => {
                     <span>Subscribe to newsletter for eco tips & offers</span>
                   </label>
                 </div>
-                
+
                 <button type="submit" className="signup-btn btn-primary">
                   Create Account
                 </button>
               </form>
-              
+
               <div className="divider">
                 <span>or sign up with</span>
               </div>
-              
+
               <div className="social-signup">
                 <button className="social-btn google-btn">
                   <i className="fab fa-google"></i>
@@ -163,15 +194,15 @@ const Signup = () => {
                   Facebook
                 </button>
               </div>
-              
+
               <p className="login-link">
                 Already have an account? <Link to="/login">Sign in</Link>
               </p>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };
 

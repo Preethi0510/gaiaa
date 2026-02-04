@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Footer.css';
 
-const Footer = () => {
+const Footer = ({ showToast }) => {
+  const [email, setEmail] = useState('');
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    if (email) {
+      showToast(`Thank you for subscribing with ${email}!`);
+      setEmail('');
+    }
+  };
   return (
     <footer className="footer">
       <div className="footer-container">
@@ -17,7 +26,7 @@ const Footer = () => {
             <a href="#" className="social-icon"><i className="fab fa-pinterest-p"></i></a>
           </div>
         </div>
-        
+
         <div className="footer-section">
           <h4>Quick Links</h4>
           <ul className="footer-links">
@@ -28,7 +37,7 @@ const Footer = () => {
             <li><a href="/faq">FAQ</a></li>
           </ul>
         </div>
-        
+
         <div className="footer-section">
           <h4>Categories</h4>
           <ul className="footer-links">
@@ -38,7 +47,7 @@ const Footer = () => {
             <li><a href="/category/gifts-zero-waste-kits">Gifts & Zero-Waste Kits</a></li>
           </ul>
         </div>
-        
+
         <div className="footer-section">
           <h4>Contact Info</h4>
           <div className="contact-info">
@@ -46,16 +55,22 @@ const Footer = () => {
             <p><i className="fas fa-phone"></i> +91 98765 43210</p>
             <p><i className="fas fa-map-marker-alt"></i> 123 Green Street, Mumbai, India</p>
           </div>
-          <div className="newsletter">
+          <form className="newsletter" onSubmit={handleSubscribe}>
             <h5>Subscribe to Newsletter</h5>
             <div className="newsletter-input">
-              <input type="email" placeholder="Your email" />
-              <button><i className="fas fa-paper-plane"></i></button>
+              <input
+                type="email"
+                placeholder="Your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <button type="submit"><i className="fas fa-paper-plane"></i></button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
-      
+
       <div className="footer-bottom">
         <p>&copy; {new Date().getFullYear()} Gaiaa. All rights reserved. Made with <i className="fas fa-heart"></i> for our planet.</p>
         <div className="payment-methods">

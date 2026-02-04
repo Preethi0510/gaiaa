@@ -78,7 +78,6 @@ const CategoryPage = ({ category: propCategory, addToCart }) => {
 
   const handleAddToCart = (product) => {
     addToCart(product);
-    alert(`✓ ${product.name} added to cart! +${product.ecoPoints} eco points earned!`);
   };
 
   return (
@@ -123,7 +122,6 @@ const CategoryPage = ({ category: propCategory, addToCart }) => {
         <div className="container">
           <div className="products-header">
             <h2>{activeSubcategory === 'All' ? 'All Products' : activeSubcategory}</h2>
-            <p className="products-count">{filteredProducts.length} products found</p>
           </div>
 
           {filteredProducts.length > 0 ? (

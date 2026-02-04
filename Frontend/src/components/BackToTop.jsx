@@ -6,7 +6,7 @@ const BackToTop = () => {
 
   useEffect(() => {
     const toggleVisibility = () => {
-      if (window.pageYOffset > 300) {
+      if (window.pageYOffset > window.innerHeight / 2) {
         setIsVisible(true);
       } else {
         setIsVisible(false);
@@ -25,7 +25,7 @@ const BackToTop = () => {
   };
 
   return (
-    <button 
+    <button
       className={`back-to-top ${isVisible ? 'visible' : ''}`}
       onClick={scrollToTop}
     >

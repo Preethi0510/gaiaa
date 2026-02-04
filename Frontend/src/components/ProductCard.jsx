@@ -6,7 +6,7 @@ const ProductCard = ({ product, onAddToCart }) => {
     const stars = [];
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 >= 0.5;
-    
+
     for (let i = 0; i < 5; i++) {
       if (i < fullStars) {
         stars.push(<i key={i} className="fas fa-star"></i>);
@@ -16,7 +16,7 @@ const ProductCard = ({ product, onAddToCart }) => {
         stars.push(<i key={i} className="far fa-star"></i>);
       }
     }
-    
+
     return stars;
   };
 
@@ -31,7 +31,7 @@ const ProductCard = ({ product, onAddToCart }) => {
       </div>
       <div className="product-content">
         <h4>{product.name}</h4>
-        <div className="product-price">${product.price}</div>
+        <div className="product-price">₹{product.price}</div>
         <div className="product-rating">
           {renderStars(product.rating)}
           <span>({product.rating})</span>

@@ -120,10 +120,10 @@ const Home = ({ addToCart }) => {
   const allProducts = Array.from({ length: 20 }, (_, index) => ({
     id: index + 1,
     name: `Premium Sustainable Product ${index + 1}`,
-    price: (Math.random() * 50 + 20).toFixed(2),
-    ecoPoints: Math.floor(Math.random() * 200 + 100),
+    price: (899 + (index * 150)),
+    ecoPoints: (120 + (index * 10)),
     image: `https://images.unsplash.com/photo-${1585238342000 + index}?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=${index + 80}`,
-    rating: (Math.random() * 1.5 + 3.5).toFixed(1),
+    rating: (4.5),
     category: ['Care', 'Home & Living', 'Fashion', 'Food'][index % 4],
     subcategory: ['Oral Care', 'Kitchenware', 'Dresses', 'Tea'][index % 4]
   }));
@@ -147,7 +147,6 @@ const Home = ({ addToCart }) => {
 
   const handleAddToCart = (product) => {
     addToCart(product);
-    alert(`✓ ${product.name} added to cart! +${product.ecoPoints} eco points earned!`);
   };
 
   return (

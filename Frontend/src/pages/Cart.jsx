@@ -18,10 +18,10 @@ const Cart = ({ cart, setCart }) => {
     setCart(cart.filter(item => item.id !== id));
   };
 
-  const subtotal = cart.reduce((sum, item) => 
+  const subtotal = cart.reduce((sum, item) =>
     sum + (item.price * (quantities[item.id] || 1)), 0
   );
-  
+
   const shipping = subtotal > 999 ? 0 : 99;
   const total = subtotal + shipping;
 
@@ -44,7 +44,7 @@ const Cart = ({ cart, setCart }) => {
     <div className="cart-page">
       <div className="container">
         <h1 className="page-title">Your Shopping Cart</h1>
-        
+
         <div className="cart-content">
           <div className="cart-items">
             {cart.map(item => (
@@ -52,11 +52,11 @@ const Cart = ({ cart, setCart }) => {
                 <div className="item-image">
                   <img src={item.image} alt={item.name} />
                 </div>
-                
+
                 <div className="item-details">
                   <h3 className="item-name">{item.name}</h3>
                   <p className="item-description">{item.description}</p>
-                  
+
                   <div className="item-meta">
                     <div className="eco-points">
                       <i className="fas fa-leaf"></i>
@@ -69,7 +69,7 @@ const Cart = ({ cart, setCart }) => {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="item-quantity">
                   <button onClick={() => updateQuantity(item.id, -1)}>
                     <i className="fas fa-minus"></i>
@@ -79,15 +79,15 @@ const Cart = ({ cart, setCart }) => {
                     <i className="fas fa-plus"></i>
                   </button>
                 </div>
-                
+
                 <div className="item-price">
                   <div className="current-price">₹{item.price * (quantities[item.id] || 1)}</div>
                   {item.originalPrice && (
                     <div className="original-price">₹{item.originalPrice * (quantities[item.id] || 1)}</div>
                   )}
                 </div>
-                
-                <button 
+
+                <button
                   className="remove-item"
                   onClick={() => removeItem(item.id)}
                 >
@@ -96,14 +96,14 @@ const Cart = ({ cart, setCart }) => {
               </div>
             ))}
           </div>
-          
+
           <div className="cart-summary">
             <h2>Order Summary</h2>
-            
+
             <div className="summary-details">
               <div className="summary-row">
                 <span>Subtotal</span>
-                <span>₹{subtotal}</span>
+                <span>₹{subtotal.toFixed(2)}</span>
               </div>
               <div className="summary-row">
                 <span>Shipping</span>
@@ -112,28 +112,28 @@ const Cart = ({ cart, setCart }) => {
               <div className="summary-row eco-points-earned">
                 <span>Eco Points Earned</span>
                 <span>
-                  {cart.reduce((sum, item) => 
+                  {cart.reduce((sum, item) =>
                     sum + (item.ecoPoints * (quantities[item.id] || 1)), 0
                   )} Points
                 </span>
               </div>
-              
+
               <div className="summary-divider"></div>
-              
+
               <div className="summary-row total">
                 <span>Total</span>
-                <span>₹{total}</span>
+                <span>₹{total.toFixed(2)}</span>
               </div>
-              
+
               <div className="discount-code">
                 <input type="text" placeholder="Discount Code" />
                 <button className="apply-btn">Apply</button>
               </div>
-              
+
               <button className="checkout-btn btn-primary">
                 Proceed to Checkout
               </button>
-              
+
               <div className="continue-shopping">
                 <Link to="/">
                   <i className="fas fa-arrow-left"></i>
@@ -141,7 +141,7 @@ const Cart = ({ cart, setCart }) => {
                 </Link>
               </div>
             </div>
-            
+
             <div className="eco-impact">
               <h3>Your Eco Impact</h3>
               <div className="impact-stats">
