@@ -15,12 +15,17 @@ const Signup = ({ showToast }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (emailError) {
+      showToast("Please use lowercase only for the email address.", "error");
+      return;
+    }
     if (formData.password !== formData.confirmPassword) {
       showToast("Passwords don't match!", "error");
       return;
     }
     // Handle signup logic here
     console.log('Signup attempt:', formData);
+    showToast("Account created successfully!");
   };
 
   const handleChange = (e) => {
@@ -201,8 +206,8 @@ const Signup = ({ showToast }) => {
             </div>
           </div>
         </div>
-      </div >
-    </div >
+      </div>
+    </div>
   );
 };
 

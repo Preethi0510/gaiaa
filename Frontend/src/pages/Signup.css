@@ -202,11 +202,12 @@
 
 .divider span {
   background-color: var(--white);
-  padding: 0 15px;
+  padding: 0 20px;
   color: var(--text-light);
   font-size: 0.9rem;
   position: relative;
   z-index: 5;
+  display: inline-block;
 }
 
 .social-signup {

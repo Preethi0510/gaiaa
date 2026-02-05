@@ -12,6 +12,10 @@ const Login = ({ showToast }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (emailError) {
+      showToast("Please use lowercase only for the email address.", "error");
+      return;
+    }
     // Handle login logic here
     console.log('Login attempt:', formData);
     showToast(`Welcome back! Logging you in...`);
