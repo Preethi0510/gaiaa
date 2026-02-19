@@ -1,7 +1,8 @@
 package com.preethi.ecommerce.repository;
 
-import entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.preethi.ecommerce.entity.Order;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 }
