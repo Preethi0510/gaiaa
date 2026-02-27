@@ -2,13 +2,36 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import './CategoryPage.css';
 import ProductCard from '../components/ProductCard';
+import API from '../api';
 
 const CategoryPage = ({ category: propCategory, addToCart }) => {
   const { categorySlug } = useParams();
   const [activeSubcategory, setActiveSubcategory] = useState('All');
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // Get category from props or URL - prioritize props
   const categoryKey = propCategory || categorySlug;
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const response = await API.get("/api/products");
+        // Filter products by category if the API returns all products
+        // Assuming products have a 'category' or 'categorySlug' field
+        const filtered = response.data.filter(p => 
+          p.category === categoryKey || p.categorySlug === categoryKey
+        );
+        setProducts(filtered.length > 0 ? filtered : response.data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, [categoryKey]);
 
   // Category data mapping
   const categoryData = {
@@ -49,29 +72,6 @@ const CategoryPage = ({ category: propCategory, addToCart }) => {
   // Get current category or default to care
   const currentCategory = categoryData[categoryKey] || categoryData.care;
 
-  // Product data for each category
-  const productsByCategory = {
-    'care': [
-      { id: 1, name: 'Bamboo Toothbrush Set', price: 12.99, ecoPoints: 65, image: 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.7, subcategory: 'Oral Care' },
-      { id: 2, name: 'Natural Shampoo Bar', price: 11.99, ecoPoints: 60, image: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.6, subcategory: 'Hair Care' },
-      { id: 3, name: 'Organic Face Cream', price: 24.99, ecoPoints: 125, image: 'https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.8, subcategory: 'Face Care' },
-      { id: 4, name: 'Herbal Body Oil', price: 19.99, ecoPoints: 100, image: 'https://images.unsplash.com/photo-1592417817098-8fd3d9eb14a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.5, subcategory: 'Body Care' },
-    ],
-    'home-living': [
-      { id: 5, name: 'Bamboo Utensil Set', price: 24.99, ecoPoints: 125, image: 'https://images.unsplash.com/photo-1585238342070-61e1e2b6c8d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.8, subcategory: 'Kitchenware' },
-      { id: 6, name: 'Ceramic Dinner Set', price: 89.99, ecoPoints: 450, image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.9, subcategory: 'Tableware' },
-    ],
-    'fashion': [
-      { id: 7, name: 'Organic Cotton Dress', price: 49.99, ecoPoints: 250, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.7, subcategory: 'Dresses' },
-      { id: 8, name: 'Sustainable T-shirt', price: 29.99, ecoPoints: 150, image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.5, subcategory: 'Tops' },
-    ],
-    'food': [
-      { id: 9, name: 'Organic Green Tea', price: 14.99, ecoPoints: 75, image: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.7, subcategory: 'Tea' },
-      { id: 10, name: 'Fair Trade Coffee', price: 18.99, ecoPoints: 95, image: 'https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80', rating: 4.8, subcategory: 'Coffee' },
-    ]
-  };
-
-  const products = productsByCategory[categoryKey] || productsByCategory.care;
   const filteredProducts = activeSubcategory === 'All'
     ? products
     : products.filter(p => p.subcategory === activeSubcategory);

@@ -14,13 +14,30 @@ import ProductPage from './pages/ProductPage';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import AdminRoute from './components/AdminRoute';
+
+// Placeholder Admin Dashboard component
+const AdminDashboard = () => (
+  <div className="container" style={{ padding: '100px 0' }}>
+    <h1>Admin Dashboard</h1>
+    <p>Welcome, Admin! This is a protected route.</p>
+  </div>
+);
 
 function App() {
   const [cart, setCart] = useState([]);
   const [showDiscountPopup, setShowDiscountPopup] = useState(false);
   const [toast, setToast] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
+    // Check for existing session
+    const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role');
+    if (token && role) {
+      setUser({ token, role });
+    }
+
     const hasVisited = localStorage.getItem('hasVisited');
     if (!hasVisited) {
       setTimeout(() => {
@@ -34,6 +51,17 @@ function App() {
     setToast({ message, type });
   };
 
+  const handleLogin = (userData) => {
+    setUser(userData);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    setUser(null);
+    showToast("Logged out successfully");
+  };
+
   const addToCart = (product) => {
     setCart([...cart, product]);
     showToast(`✓ ${product.name} added to cart! +${product.ecoPoints} eco points earned!`);
@@ -44,7 +72,7 @@ function App() {
       <ScrollToTop />
       <div className="App">
         <BiologyFact />
-        <Navbar cartCount={cart.length} />
+        <Navbar cartCount={cart.length} user={user} onLogout={handleLogout} />
         <Routes>
           {/* Home Page */}
           <Route path="/" element={<Home addToCart={addToCart} />} />
@@ -58,10 +86,20 @@ function App() {
           {/* Dynamic route for any category */}
           <Route path="/category/:categorySlug" element={<CategoryPage addToCart={addToCart} />} />
 
+          {/* Admin Dashboard */}
+          <Route 
+            path="/admin/dashboard" 
+            element={
+              <AdminRoute>
+                <AdminDashboard />
+              </AdminRoute>
+            } 
+          />
+
           {/* Other Pages */}
           <Route path="/product/:productId" element={<ProductPage addToCart={addToCart} />} />
           <Route path="/cart" element={<Cart cart={cart} setCart={setCart} />} />
-          <Route path="/login" element={<Login showToast={showToast} />} />
+          <Route path="/login" element={<Login showToast={showToast} onLogin={handleLogin} />} />
           <Route path="/signup" element={<Signup showToast={showToast} />} />
         </Routes>
         <Footer showToast={showToast} />

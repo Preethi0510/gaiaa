@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Signup.css';
+import API from '../api';
 
 const Signup = ({ showToast }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -12,8 +14,9 @@ const Signup = ({ showToast }) => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [emailError, setEmailError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (emailError) {
       showToast("Please use lowercase only for the email address.", "error");
@@ -23,9 +26,22 @@ const Signup = ({ showToast }) => {
       showToast("Passwords don't match!", "error");
       return;
     }
-    // Handle signup logic here
-    console.log('Signup attempt:', formData);
-    showToast("Account created successfully!");
+
+    try {
+      setLoading(true);
+      const response = await API.post("/api/auth/signup", {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password
+      });
+      showToast("Account created successfully!");
+      navigate('/login');
+    } catch (error) {
+      console.error("Signup error:", error);
+      showToast(error.response?.data?.message || "Signup failed. Please try again.", "error");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e) => {

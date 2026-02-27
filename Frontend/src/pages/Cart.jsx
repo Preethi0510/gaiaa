@@ -18,9 +18,10 @@ const Cart = ({ cart, setCart }) => {
     setCart(cart.filter(item => item.id !== id));
   };
 
-  const subtotal = cart.reduce((sum, item) =>
-    sum + (item.price * (quantities[item.id] || 1)), 0
-  );
+  const subtotal = cart.reduce((sum, item) => {
+    const itemPrice = item.price || (item.variants && item.variants[0]?.price) || 0;
+    return sum + (itemPrice * (quantities[item.id] || 1));
+  }, 0);
 
   const shipping = subtotal > 999 ? 0 : 99;
   const total = subtotal + shipping;
@@ -50,7 +51,7 @@ const Cart = ({ cart, setCart }) => {
             {cart.map(item => (
               <div key={item.id} className="cart-item">
                 <div className="item-image">
-                  <img src={item.image} alt={item.name} />
+                  <img src={item.image || (item.images && item.images[0])} alt={item.name} />
                 </div>
 
                 <div className="item-details">
@@ -81,7 +82,7 @@ const Cart = ({ cart, setCart }) => {
                 </div>
 
                 <div className="item-price">
-                  <div className="current-price">₹{item.price * (quantities[item.id] || 1)}</div>
+                  <div className="current-price">₹{(item.price || (item.variants && item.variants[0]?.price) || 0) * (quantities[item.id] || 1)}</div>
                   {item.originalPrice && (
                     <div className="original-price">₹{item.originalPrice * (quantities[item.id] || 1)}</div>
                   )}

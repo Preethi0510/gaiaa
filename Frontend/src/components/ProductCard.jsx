@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './ProductCard.css';
 
 const ProductCard = ({ product, onAddToCart }) => {
@@ -22,16 +23,20 @@ const ProductCard = ({ product, onAddToCart }) => {
 
   return (
     <div className="product-card">
-      <div className="product-image">
-        <img src={product.image} alt={product.name} />
-        <div className="eco-badge">
-          <i className="fas fa-leaf"></i>
-          {product.ecoPoints} pts
+      <Link to={`/product/${product.id}`} className="product-image-link">
+        <div className="product-image">
+          <img src={product.image || (product.images && product.images[0])} alt={product.name} />
+          <div className="eco-badge">
+            <i className="fas fa-leaf"></i>
+            {product.ecoPoints} pts
+          </div>
         </div>
-      </div>
+      </Link>
       <div className="product-content">
-        <h4>{product.name}</h4>
-        <div className="product-price">₹{product.price}</div>
+        <Link to={`/product/${product.id}`}>
+          <h4>{product.name}</h4>
+        </Link>
+        <div className="product-price">₹{product.price || (product.variants && product.variants[0]?.price)}</div>
         <div className="product-rating">
           {renderStars(product.rating)}
           <span>({product.rating})</span>

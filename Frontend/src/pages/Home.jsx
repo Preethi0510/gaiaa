@@ -3,9 +3,12 @@ import { Link } from 'react-router-dom';
 import './Home.css';
 import CategoryCard from '../components/CategoryCard';
 import ProductCard from '../components/ProductCard';
+import API from '../api';
 
 const Home = ({ addToCart }) => {
   const [activeSlide, setActiveSlide] = useState(0);
+  const [allProducts, setAllProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const videoRefs = useRef([]);
 
   // Auto-sliding hero slides
@@ -116,20 +119,22 @@ const Home = ({ addToCart }) => {
     }
   ];
 
-  // 20 Products for display
-  const allProducts = Array.from({ length: 20 }, (_, index) => ({
-    id: index + 1,
-    name: `Premium Sustainable Product ${index + 1}`,
-    price: (899 + (index * 150)),
-    ecoPoints: (120 + (index * 10)),
-    image: `https://images.unsplash.com/photo-${1585238342000 + index}?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=${index + 80}`,
-    rating: (4.5),
-    category: ['Care', 'Home & Living', 'Fashion', 'Food'][index % 4],
-    subcategory: ['Oral Care', 'Kitchenware', 'Dresses', 'Tea'][index % 4]
-  }));
 
   // Auto slide every 5 seconds
   useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const response = await API.get("/api/products");
+        setAllProducts(response.data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+
     const interval = setInterval(() => {
       setActiveSlide((prev) => (prev + 1) % heroSlides.length);
     }, 5000);
@@ -254,13 +259,19 @@ const Home = ({ addToCart }) => {
           </div>
 
           <div className="products-grid-four">
-            {allProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onAddToCart={() => handleAddToCart(product)}
-              />
-            ))}
+            {loading ? (
+              <p>Loading featured products...</p>
+            ) : allProducts.length > 0 ? (
+              allProducts.slice(0, 8).map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  onAddToCart={() => handleAddToCart(product)}
+                />
+              ))
+            ) : (
+              <p>No featured products available.</p>
+            )}
           </div>
 
           <div className="view-all-container">

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
 
-const Navbar = ({ cartCount }) => {
+const Navbar = ({ cartCount, user, onLogout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -77,8 +77,30 @@ const Navbar = ({ cartCount }) => {
               <i className="fas fa-search"></i>
             </button>
           </div>
-          <Link to="/login" className="auth-link" onClick={() => setIsMenuOpen(false)}>Login</Link>
-          <Link to="/signup" className="auth-link" onClick={() => setIsMenuOpen(false)}>Sign Up</Link>
+          
+          {user ? (
+            <>
+              {user.role === 'ROLE_ADMIN' && (
+                <Link to="/admin/dashboard" className="auth-link" onClick={() => setIsMenuOpen(false)}>Dashboard</Link>
+              )}
+              <button 
+                className="auth-link logout-btn" 
+                onClick={() => {
+                  onLogout();
+                  setIsMenuOpen(false);
+                }}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, font: 'inherit' }}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="auth-link" onClick={() => setIsMenuOpen(false)}>Login</Link>
+              <Link to="/signup" className="auth-link" onClick={() => setIsMenuOpen(false)}>Sign Up</Link>
+            </>
+          )}
+
           <Link to="/cart" className="cart-icon">
             <i className="fas fa-shopping-bag"></i>
             {cartCount > 0 && <span className="cart-count">{cartCount}</span>}

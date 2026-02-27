@@ -1,24 +1,47 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
+import API from '../api';
 
-const Login = ({ showToast }) => {
+const Login = ({ showToast, onLogin }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
   const [showPassword, setShowPassword] = useState(false);
   const [emailError, setEmailError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (emailError) {
       showToast("Please use lowercase only for the email address.", "error");
       return;
     }
-    // Handle login logic here
-    console.log('Login attempt:', formData);
-    showToast(`Welcome back! Logging you in...`);
+    
+    try {
+      setLoading(true);
+      const response = await API.post("/api/auth/login", formData);
+      const { token, role } = response.data;
+      
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", role);
+      
+      onLogin({ token, role });
+      showToast(`Welcome back! Logging you in...`);
+      
+      if (role === "ROLE_ADMIN") {
+        navigate('/admin/dashboard');
+      } else {
+        navigate('/');
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      showToast(error.response?.data?.message || "Login failed. Please check your credentials.", "error");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e) => {

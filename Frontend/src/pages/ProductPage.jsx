@@ -1,55 +1,45 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import './ProductPage.css';
+import API from '../api';
 
 const ProductPage = ({ addToCart }) => {
   const { productId } = useParams();
+  const [product, setProduct] = useState(null);
+  const [relatedProducts, setRelatedProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [selectedVariant, setSelectedVariant] = useState(0);
 
-  // Sample product data - in real app, fetch based on productId
-  const product = {
-    id: parseInt(productId) || 1,
-    name: "Bamboo Toothbrush Set",
-    description: "These natural bamboo toothbrushes feature soft charcoal-infused bristles that gently clean teeth while being kind to the environment. The bamboo handle is 100% biodegradable and sustainably sourced.",
-    longDescription: "Our Bamboo Toothbrush Set is crafted with care for both your oral hygiene and the planet. Each brush is made from Moso bamboo, one of the fastest-growing plants on Earth. The bristles are infused with activated charcoal for natural whitening. When it's time to replace your brush, simply compost the handle!",
-    price: 299,
-    originalPrice: 399,
-    rating: 4.5,
-    reviews: 128,
-    ecoPoints: 50,
-    images: [
-      "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600",
-      "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600",
-      "https://images.unsplash.com/photo-1564420228450-d1c41fa7b5d9?w=600"
-    ],
-    variants: [
-      { name: "Set of 2", price: 299 },
-      { name: "Set of 4", price: 549 },
-      { name: "Set of 6", price: 799 }
-    ],
-    features: [
-      "100% biodegradable bamboo handle",
-      "Charcoal-infused bristles for natural whitening",
-      "BPA-free and vegan",
-      "Compostable packaging",
-      "Sustainably sourced materials"
-    ],
-    specifications: {
-      material: "Moso Bamboo & Nylon-4 bristles",
-      dimensions: "18cm length",
-      weight: "15g per brush",
-      packaging: "Compostable cardboard box",
-      origin: "Made in India"
-    }
-  };
+  useEffect(() => {
+    const fetchProductData = async () => {
+      try {
+        setLoading(true);
+        const [productRes, allProductsRes] = await Promise.all([
+          API.get(`/api/products/${productId}`),
+          API.get("/api/products")
+        ]);
+        
+        setProduct(productRes.data);
+        
+        // Filter out current product and pick first 3 as related
+        const related = allProductsRes.data
+          .filter(p => p.id.toString() !== productId)
+          .slice(0, 3);
+        setRelatedProducts(related);
+        
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProductData();
+  }, [productId]);
 
-  const relatedProducts = [
-    { id: 5, name: "Bamboo Cotton Swabs", price: 149, rating: 4.8, ecoPoints: 25 },
-    { id: 6, name: "Natural Loofah", price: 199, rating: 4.3, ecoPoints: 30 },
-    { id: 7, name: "Silk Dental Floss", price: 249, rating: 4.6, ecoPoints: 40 }
-  ];
+  if (loading) return <div className="container" style={{ padding: '100px 0' }}>Loading...</div>;
+  if (!product) return <div className="container" style={{ padding: '100px 0' }}>Product not found</div>;
 
   const increaseQuantity = () => setQuantity(prev => prev + 1);
   const decreaseQuantity = () => setQuantity(prev => Math.max(1, prev - 1));
