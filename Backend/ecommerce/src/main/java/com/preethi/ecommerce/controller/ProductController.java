@@ -1,47 +1,33 @@
 package com.preethi.ecommerce.controller;
 
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.preethi.ecommerce.entity.Product;
 import com.preethi.ecommerce.service.ProductService;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
-@CrossOrigin
 public class ProductController {
 
-    private final ProductService service;
+    private final ProductService productService;
 
-    public ProductController(ProductService service) {
-        this.service = service;
-    }
-
-    @PostMapping
-    public Product addProduct(@RequestParam String name,
-                              @RequestParam double price,
-                              @RequestParam String description,
-                              @RequestParam MultipartFile file) throws Exception {
-
-        String dir = "uploads/";
-        new File(dir).mkdirs();
-
-        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-        file.transferTo(new File(dir + fileName));
-
-        Product p = new Product();
-        p.setName(name);
-        p.setPrice(price);
-        p.setDescription(description);
-        p.setImageUrl("http://localhost:8080/images/" + fileName);
-
-        return service.save(p);
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping
-    public java.util.List<Product> all() {
-        return service.findAll();
+    public List<Product> getAllProducts() {
+        return productService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Product getProductById(@PathVariable Long id) {
+        return productService.findById(id);
+    }
+
+    @PostMapping
+    public Product createProduct(@RequestBody Product product) {
+        return productService.save(product);
     }
 }

@@ -1,37 +1,56 @@
 package com.preethi.ecommerce.config;
 
-import jakarta.servlet.*;
+import com.preethi.ecommerce.service.AuthService;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
-import org.springframework.security.authentication.*;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
 import java.io.IOException;
 
 @Component
-public class JwtAuthenticationFilter extends GenericFilter {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
+    private final AuthService authService;
 
-    public JwtAuthenticationFilter(JwtUtil jwtUtil) {
+    public JwtAuthenticationFilter(JwtUtil jwtUtil, AuthService authService) {
         this.jwtUtil = jwtUtil;
+        this.authService = authService;
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
 
-        HttpServletRequest req = (HttpServletRequest) request;
-        String header = req.getHeader("Authorization");
+        String header = request.getHeader("Authorization");
 
         if (header != null && header.startsWith("Bearer ")) {
+
             String token = header.substring(7);
-            if (jwtUtil.validate(token)) {
-                String username = jwtUtil.getUsername(token);
-                UsernamePasswordAuthenticationToken auth =
-                        new UsernamePasswordAuthenticationToken(username, null, null);
-                SecurityContextHolder.getContext().setAuthentication(auth);
+
+            if (jwtUtil.validateToken(token)) {
+
+                String email = jwtUtil.extractEmail(token);
+
+                var userDetails = authService.loadUserByEmail(email);
+
+                var auth =
+                        new UsernamePasswordAuthenticationToken(
+                                userDetails,
+                                null,
+                                userDetails.getAuthorities());
+
+                SecurityContextHolder.getContext()
+                        .setAuthentication(auth);
             }
         }
-        chain.doFilter(request, response);
+
+        filterChain.doFilter(request, response);
     }
 }

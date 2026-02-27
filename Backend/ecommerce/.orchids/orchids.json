@@ -1,0 +1,8 @@
+{
+  "projectId": "38b6fdbb-6a7c-4fce-b7b4-3d82a3829105",
+  "createdAt": 1772202399627,
+  "startupCommands": [
+    ".\\mvnw.cmd clean spring-boot:run"
+  ],
+  "templateId": "any"
+}

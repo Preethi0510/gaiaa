@@ -1,15 +1,13 @@
 package com.preethi.ecommerce.controller;
 
-import org.springframework.web.bind.annotation.*;
-
 import com.preethi.ecommerce.config.JwtUtil;
-import com.preethi.ecommerce.dto.*;
-import com.preethi.ecommerce.entity.User;
+import com.preethi.ecommerce.dto.LoginRequest;
+import com.preethi.ecommerce.dto.SignupRequest;
 import com.preethi.ecommerce.service.AuthService;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin
 public class AuthController {
 
     private final AuthService authService;
@@ -21,15 +19,24 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public String signup(@RequestBody SignupRequest req) {
-        authService.register(req);
-        return "User registered";
+    public String register(@RequestBody SignupRequest request) {
+
+        authService.register(
+                request.getName(),
+                request.getEmail(),
+                request.getPassword()
+        );
+
+        return "User registered successfully";
     }
 
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody LoginRequest req) {
-        User u = authService.login(req);
-        String token = jwtUtil.generateToken(u.getEmail());
-        return new AuthResponse(token);
+    public String login(@RequestBody LoginRequest request) {
+
+        var userDetails = authService.loadUserByEmail(request.getEmail());
+
+        String token = jwtUtil.generateToken(userDetails.getUsername());
+
+        return token;
     }
 }
