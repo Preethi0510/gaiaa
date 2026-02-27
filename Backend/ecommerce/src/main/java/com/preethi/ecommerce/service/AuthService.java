@@ -7,8 +7,10 @@ import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+
 @Service
-public class AuthService {
+public class AuthService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -18,10 +20,14 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public UserDetails loadUserByEmail(String email) {
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return loadUserByEmail(email);
+    }
 
+    public UserDetails loadUserByEmail(String email) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getEmail())
@@ -31,7 +37,6 @@ public class AuthService {
     }
 
     public void register(String name, String email, String password) {
-
         if (userRepository.existsByEmail(email)) {
             throw new RuntimeException("Email already exists");
         }

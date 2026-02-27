@@ -1,6 +1,3 @@
-
-
-
 package com.preethi.ecommerce.entity;
 
 import jakarta.persistence.*;
