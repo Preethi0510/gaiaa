@@ -41,14 +41,20 @@ const ProductPage = ({ addToCart }) => {
   if (loading) return <div className="container" style={{ padding: '100px 0' }}>Loading...</div>;
   if (!product) return <div className="container" style={{ padding: '100px 0' }}>Product not found</div>;
 
+  const images = product.images || [product.image];
+  const variants = product.variants || [{ name: 'Default', price: product.price }];
+  const features = product.features || [];
+  const rating = product.rating || 0;
+  const reviews = product.reviews || 0;
+
   const increaseQuantity = () => setQuantity(prev => prev + 1);
   const decreaseQuantity = () => setQuantity(prev => Math.max(1, prev - 1));
 
   const handleAddToCart = () => {
     addToCart({
       ...product,
-      price: product.variants[selectedVariant].price,
-      variant: product.variants[selectedVariant].name
+      price: variants[selectedVariant]?.price || product.price,
+      variant: variants[selectedVariant]?.name || 'Default'
     });
   };
 
@@ -57,8 +63,9 @@ const ProductPage = ({ addToCart }) => {
       <div className="container">
         <div className="product-breadcrumb">
           <Link to="/">Home</Link> / 
-          <Link to="/category/home-living">Home & Living</Link> / 
-          <Link to="/category/home-living/personal-care">Personal Care</Link> / 
+          <Link to={`/category/${product.categorySlug || product.category || 'all'}`}>
+            {product.category || 'All Products'}
+          </Link> / 
           <span>{product.name}</span>
         </div>
 
@@ -66,19 +73,21 @@ const ProductPage = ({ addToCart }) => {
           {/* Product Images */}
           <div className="product-images">
             <div className="main-image">
-              <img src={product.images[selectedImage]} alt={product.name} />
+              <img src={images[selectedImage]} alt={product.name} />
             </div>
-            <div className="thumbnail-images">
-              {product.images.map((img, index) => (
-                <button
-                  key={index}
-                  className={`thumbnail ${selectedImage === index ? 'active' : ''}`}
-                  onClick={() => setSelectedImage(index)}
-                >
-                  <img src={img} alt={`${product.name} view ${index + 1}`} />
-                </button>
-              ))}
-            </div>
+            {images.length > 1 && (
+              <div className="thumbnail-images">
+                {images.map((img, index) => (
+                  <button
+                    key={index}
+                    className={`thumbnail ${selectedImage === index ? 'active' : ''}`}
+                    onClick={() => setSelectedImage(index)}
+                  >
+                    <img src={img} alt={`${product.name} view ${index + 1}`} />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Product Info */}
@@ -88,16 +97,16 @@ const ProductPage = ({ addToCart }) => {
             <div className="product-rating-review">
               <div className="rating-stars">
                 {[...Array(5)].map((_, i) => (
-                  <i key={i} className={`fas fa-star ${i < Math.floor(product.rating) ? 'filled' : ''}`}></i>
+                  <i key={i} className={`fas fa-star ${i < Math.floor(rating) ? 'filled' : ''}`}></i>
                 ))}
-                <span className="rating-value">{product.rating}</span>
+                <span className="rating-value">{rating}</span>
               </div>
-              <span className="review-count">({product.reviews} reviews)</span>
+              <span className="review-count">({reviews} reviews)</span>
               <span className="in-stock">In Stock</span>
             </div>
 
             <div className="product-price">
-              <span className="current-price">₹{product.variants[selectedVariant].price}</span>
+              <span className="current-price">₹{variants[selectedVariant]?.price || product.price}</span>
               {product.originalPrice && (
                 <span className="original-price">₹{product.originalPrice}</span>
               )}
@@ -110,21 +119,23 @@ const ProductPage = ({ addToCart }) => {
             <p className="product-short-desc">{product.description}</p>
 
             {/* Variants */}
-            <div className="product-variants">
-              <h4>Select Option:</h4>
-              <div className="variant-options">
-                {product.variants.map((variant, index) => (
-                  <button
-                    key={index}
-                    className={`variant-option ${selectedVariant === index ? 'active' : ''}`}
-                    onClick={() => setSelectedVariant(index)}
-                  >
-                    {variant.name}
-                    <span>₹{variant.price}</span>
-                  </button>
-                ))}
+            {variants.length > 0 && variants[0].name !== 'Default' && (
+              <div className="product-variants">
+                <h4>Select Option:</h4>
+                <div className="variant-options">
+                  {variants.map((variant, index) => (
+                    <button
+                      key={index}
+                      className={`variant-option ${selectedVariant === index ? 'active' : ''}`}
+                      onClick={() => setSelectedVariant(index)}
+                    >
+                      {variant.name}
+                      <span>₹{variant.price}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Quantity */}
             <div className="product-quantity">
@@ -200,23 +211,27 @@ const ProductPage = ({ addToCart }) => {
             <button className="tab active">Description</button>
             <button className="tab">Features</button>
             <button className="tab">Specifications</button>
-            <button className="tab">Reviews ({product.reviews})</button>
+            <button className="tab">Reviews ({reviews})</button>
           </div>
 
           <div className="tab-content">
             <div className="description-content">
               <h3>Product Description</h3>
-              <p>{product.longDescription}</p>
+              <p>{product.longDescription || product.description}</p>
               
-              <h4>Key Features:</h4>
-              <ul className="features-list">
-                {product.features.map((feature, index) => (
-                  <li key={index}>
-                    <i className="fas fa-check"></i>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
+              {features.length > 0 && (
+                <>
+                  <h4>Key Features:</h4>
+                  <ul className="features-list">
+                    {features.map((feature, index) => (
+                      <li key={index}>
+                        <i className="fas fa-check"></i>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -227,18 +242,22 @@ const ProductPage = ({ addToCart }) => {
           <div className="related-grid">
             {relatedProducts.map(relatedProduct => (
               <div key={relatedProduct.id} className="related-card">
-                <div className="related-image">
-                  <img src={`https://images.unsplash.com/photo-${1500000000000 + relatedProduct.id}?w=300`} 
-                       alt={relatedProduct.name} />
-                </div>
+                <Link to={`/product/${relatedProduct.id}`}>
+                  <div className="related-image">
+                    <img src={relatedProduct.image || (relatedProduct.images && relatedProduct.images[0]) || `https://images.unsplash.com/photo-${1500000000000 + relatedProduct.id}?w=300`} 
+                         alt={relatedProduct.name} />
+                  </div>
+                </Link>
                 <div className="related-info">
-                  <h4>{relatedProduct.name}</h4>
-                  <div className="related-price">₹{relatedProduct.price}</div>
+                  <Link to={`/product/${relatedProduct.id}`}>
+                    <h4>{relatedProduct.name}</h4>
+                  </Link>
+                  <div className="related-price">₹{relatedProduct.price || (relatedProduct.variants && relatedProduct.variants[0]?.price)}</div>
                   <div className="related-points">
                     <i className="fas fa-leaf"></i>
                     {relatedProduct.ecoPoints} Points
                   </div>
-                  <button className="quick-add-btn">Quick Add</button>
+                  <button className="quick-add-btn" onClick={() => addToCart(relatedProduct)}>Quick Add</button>
                 </div>
               </div>
             ))}
