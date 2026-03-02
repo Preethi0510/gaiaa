@@ -14,15 +14,8 @@ import ProductPage from './pages/ProductPage';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import AdminDashboard from './pages/AdminDashboard';
 import AdminRoute from './components/AdminRoute';
-
-// Placeholder Admin Dashboard component
-const AdminDashboard = () => (
-  <div className="container" style={{ padding: '100px 0' }}>
-    <h1>Admin Dashboard</h1>
-    <p>Welcome, Admin! This is a protected route.</p>
-  </div>
-);
 
 function App() {
   const [cart, setCart] = useState([]);

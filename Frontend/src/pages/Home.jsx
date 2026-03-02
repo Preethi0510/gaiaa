@@ -125,7 +125,7 @@ const Home = ({ addToCart }) => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const response = await API.get("/api/products");
+        const response = await API.get("/products");
         setAllProducts(response.data);
       } catch (error) {
         console.error("Error fetching products:", error);

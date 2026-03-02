@@ -22,7 +22,7 @@ const Login = ({ showToast, onLogin }) => {
     
     try {
       setLoading(true);
-      const response = await API.post("/api/auth/login", formData);
+      const response = await API.post("/auth/login", formData);
       const { token, role } = response.data;
       
       localStorage.setItem("token", token);

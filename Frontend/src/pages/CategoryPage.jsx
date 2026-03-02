@@ -17,7 +17,7 @@ const CategoryPage = ({ category: propCategory, addToCart }) => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const response = await API.get("/api/products");
+        const response = await API.get("/products");
         // Filter products by category if the API returns all products
         // Assuming products have a 'category' or 'categorySlug' field
         const filtered = response.data.filter(p => 

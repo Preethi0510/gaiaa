@@ -17,8 +17,8 @@ const ProductPage = ({ addToCart }) => {
       try {
         setLoading(true);
         const [productRes, allProductsRes] = await Promise.all([
-          API.get(`/api/products/${productId}`),
-          API.get("/api/products")
+          API.get(`/products/${productId}`),
+          API.get("/products")
         ]);
         
         setProduct(productRes.data);

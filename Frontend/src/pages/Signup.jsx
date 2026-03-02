@@ -29,7 +29,7 @@ const Signup = ({ showToast }) => {
 
     try {
       setLoading(true);
-      const response = await API.post("/api/auth/signup", {
+      const response = await API.post("/auth/signup", {
         name: formData.name,
         email: formData.email,
         password: formData.password
