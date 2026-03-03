@@ -15,6 +15,7 @@ import Cart from './pages/Cart';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import AdminDashboard from './pages/AdminDashboard';
+import AddProduct from './pages/AddProduct';
 import AdminRoute from './components/AdminRoute';
 
 function App() {
@@ -79,12 +80,20 @@ function App() {
           {/* Dynamic route for any category */}
           <Route path="/category/:categorySlug" element={<CategoryPage addToCart={addToCart} />} />
 
-          {/* Admin Dashboard */}
+          {/* Admin Routes */}
           <Route 
             path="/admin/dashboard" 
             element={
               <AdminRoute>
                 <AdminDashboard />
+              </AdminRoute>
+            } 
+          />
+          <Route 
+            path="/admin/add-product" 
+            element={
+              <AdminRoute>
+                <AddProduct showToast={showToast} />
               </AdminRoute>
             } 
           />

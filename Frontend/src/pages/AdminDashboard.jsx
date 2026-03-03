@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import API from '../api';
 import './AdminDashboard.css';
 
@@ -109,9 +110,9 @@ const AdminDashboard = () => {
       <div className="container">
         <div className="admin-header">
           <h1>Admin Dashboard</h1>
-          <button className="btn-primary" onClick={() => openModal()}>
+          <Link to="/admin/add-product" className="btn-primary" style={{ textDecoration: 'none' }}>
             <i className="fas fa-plus"></i> Add New Product
-          </button>
+          </Link>
         </div>
 
         <div className="admin-stats">
