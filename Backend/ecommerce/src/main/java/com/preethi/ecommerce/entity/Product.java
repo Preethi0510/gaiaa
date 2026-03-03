@@ -1,6 +1,10 @@
 package com.preethi.ecommerce.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
 public class Product {
@@ -8,18 +12,26 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Product name is required")
     private String name;
+
+    @NotNull(message = "Price is required")
+    @Positive(message = "Price must be positive")
     private double price;
 
+    @NotBlank(message = "Description is required")
     @Column(length = 1000)
     private String description;
 
     private String imageUrl;
 
+    @NotNull(message = "Stock quantity is required")
+    @PositiveOrZero(message = "Stock cannot be negative")
     private int stockQuantity;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
+    @NotNull(message = "Category is required")
     private Category category;
 
     public Product() {}
