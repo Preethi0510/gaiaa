@@ -85,16 +85,16 @@
 }
 
 .subcategory-tab {
-  padding: 10px 24px;
-  font-size: 0.9rem;
-  border-radius: 8px;
-  background: white;
-  border: 1px solid #ddd;
-  color: var(--text-dark);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 500;
-}
+    padding: 10px 24px;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    background: white;
+    border: 1px solid #ddd;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+  }
 
 .subcategory-tab:hover {
   background-color: var(--primary-green);

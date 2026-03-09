@@ -635,9 +635,9 @@
 
   .category-cards-four,
   .products-grid-four {
-    grid-template-columns: 1fr;
-    gap: 20px;
-    padding: 0 10px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 0;
   }
 
   .section-title {
@@ -683,9 +683,32 @@
     font-size: 0.88rem;
     /* Adjusted */
   }
+  .category-content {
+    padding: 12px;
+  }
+
+  .category-content h3 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+
+  .subcategory-tag {
+    padding: 3px 8px;
+    font-size: 0.7rem;
+  }
+
+  .category-footer {
+    padding-top: 10px;
+  }
 }
 
 @media (max-width: 480px) {
+  .category-cards-four,
+  .products-grid-four {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
   .auto-slider-hero {
     min-height: 320px;
     /* Adjusted */
