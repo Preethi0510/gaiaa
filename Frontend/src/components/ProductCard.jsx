@@ -42,8 +42,8 @@ const ProductCard = ({ product, onAddToCart }) => {
           <span>({product.rating})</span>
         </div>
         <div className="product-category">
-          <span className="category-badge">{product.category}</span>
-          <span className="subcategory-badge">{product.subcategory}</span>
+          <span className="category-badge">{product.category?.name || product.category}</span>
+          <span className="subcategory-badge">{product.subcategory?.name || product.subcategory}</span>
         </div>
         <button className="add-to-cart-btn-small" onClick={onAddToCart}>
           <i className="fas fa-shopping-cart"></i> Add to Cart

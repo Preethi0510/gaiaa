@@ -155,7 +155,7 @@ const AdminDashboard = () => {
                     />
                   </td>
                   <td>{product.name}</td>
-                  <td>{product.category}</td>
+                  <td>{product.category?.name || product.category}</td>
                   <td>₹{product.price || (product.variants && product.variants[0]?.price)}</td>
                   <td>{product.ecoPoints}</td>
                   <td className="admin-actions">

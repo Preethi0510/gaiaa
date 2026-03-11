@@ -63,8 +63,8 @@ const ProductPage = ({ addToCart }) => {
       <div className="container">
         <div className="product-breadcrumb">
           <Link to="/">Home</Link> / 
-          <Link to={`/category/${product.categorySlug || product.category || 'all'}`}>
-            {product.category || 'All Products'}
+          <Link to={`/category/${product.categorySlug || (typeof product.category === 'object' ? product.category.name : product.category) || 'all'}`}>
+            {product.category?.name || product.category || 'All Products'}
           </Link> / 
           <span>{product.name}</span>
         </div>
